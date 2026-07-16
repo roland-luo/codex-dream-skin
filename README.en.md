@@ -44,7 +44,7 @@
 
 ## Gallery
 
-One image, one mood. These are visual-direction composites. The live skin preserves your real Codex sidebar, projects, tasks, and native window frame instead of injecting the sample data. macOS 1.2.0 ships a runnable preset closest to Pink Custom.
+One image, one mood. These are visual-direction composites. The live skin preserves your real Codex sidebar, projects, tasks, and native window frame instead of injecting the sample data. macOS 1.4.0 selects a complete art-directed profile first, then reviews a live screenshot against the initial design instead of stopping at palette extraction and wallpaper placement.
 
 <p align="center">
   <img src="docs/images/gallery/skin-01.jpg" alt="Pink Custom" width="900"><br>
@@ -99,7 +99,7 @@ Platform scripts are ready — different plumbing, same goal: theme Codex.
 
 | Platform | Dir | Entry |
 |------|------|------|
-| Apple Silicon / Intel Mac | [`macos/`](./macos/) | Double-click `Install Codex Dream Skin.command` |
+| Apple Silicon / Intel Mac | [`macos/`](./macos/) | Double-click `Generate Codex Dream Skin.command` |
 | Windows | [`windows/`](./windows/) | `scripts/install-dream-skin.ps1` → `start-dream-skin.ps1` |
 
 More detail:

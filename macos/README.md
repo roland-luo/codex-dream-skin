@@ -14,28 +14,19 @@ This project injects through **local loopback CDP**. It does **not** modify the 
 - Official Codex Desktop installed and launched at least once (`~/.codex/config.toml` exists)
 - No global Node.js install required (uses Codex’s signed bundled Node after validation)
 
-## Quick start (from this repo)
+## One-click generation (from this repo or Skill)
 
 ```bash
-# 1) Optional static checks (needs Codex.app present for bundled Node path)
-./tests/run-tests.sh
-
-# 2) Install to the stable path and create Desktop launchers
-./scripts/install-dream-skin-macos.sh --no-launch
-
-# 3) Customize with your image (Finder picker if you omit flags)
-~/.codex/codex-dream-skin-studio/scripts/customize-theme-macos.sh
-
-# 4) Start / re-apply, verify, or restore via Desktop:
-#    Codex Dream Skin.command
-#    Codex Dream Skin - Customize.command
-#    Codex Dream Skin - Verify.command
-#    Codex Dream Skin - Restore.command
-
-# 5) Optional: menu bar (SwiftBar) — apply / pause / change image
-./Install\ Menu\ Bar.command
-# Look for 🎨 Skin in the top-right menu bar
+./scripts/generate-dream-skin-macos.sh \
+  --image "/path/to/image.png" \
+  --name "My theme"
 ```
+
+That single command installs or updates the stable engine, prepares the image, derives matching accent colors and a focal position, selects a curated `rose` or `portal` design profile when the artwork fits (with `adaptive` as the fallback), applies it, and verifies the live native UI. When an AI runs the Skill, it also inspects the saved screenshot against the initial-design target before approving the result. Task pages keep the artwork deliberately subdued so code and long-form text remain readable. Omit the options to choose an image and name interactively, or double-click `Generate Codex Dream Skin.command`.
+
+If Codex is already running without the verified skin CDP endpoint, macOS asks once before restarting it. The installer also creates Desktop launchers for generate, customize, start, verify, and restore.
+
+Optional menu bar controls: double-click `Install Menu Bar.command`, then look for 🎨 Skin in the top-right menu bar.
 
 Install location after step 2:
 
@@ -70,16 +61,19 @@ CDP is powerful and unauthenticated on loopback. Prefer Restore when you are don
 
 - PNG / JPEG / HEIC / TIFF / WebP (macOS readable)
 - Source ≤ 50 MB; prepared file ≤ 16 MB
-- Wide images work best (width ≥ 2000 px recommended)
-- Keep the left side relatively calm for native home titles
+- 16:9 wide images work best (width ≥ 2000 px recommended); square and portrait images receive stronger task-page quieting
+- Keep the left third relatively calm for native home titles and put the main subject near the center-right
+- Avoid text, logos, watermarks, fake UI, and screenshots of application chrome
 - Image is banner + background only — never a full-window fake UI overlay
 
-CLI example:
+Advanced CLI example:
 
 ```bash
-~/.codex/codex-dream-skin-studio/scripts/customize-theme-macos.sh \
+~/.codex/codex-dream-skin-studio/scripts/generate-dream-skin-macos.sh \
   --image "/path/to/image.png" \
   --name "My theme" \
+  --preset "rose" \
+  --art-position "58% center" \
   --accent "#7cff46" \
   --secondary "#36d7e8" \
   --highlight "#642a8c"
@@ -88,7 +82,7 @@ CLI example:
 Reset to the bundled abstract demo:
 
 ```bash
-~/.codex/codex-dream-skin-studio/scripts/customize-theme-macos.sh --reset-demo
+~/.codex/codex-dream-skin-studio/scripts/generate-dream-skin-macos.sh --reset-demo
 ```
 
 ## License

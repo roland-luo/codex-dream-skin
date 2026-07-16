@@ -19,6 +19,16 @@ function validateHex(value, name) {
   return value.toLowerCase();
 }
 
+function parsePalette(value) {
+  try {
+    const parsed = JSON.parse(value || "{}");
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error();
+    return parsed;
+  } catch {
+    throw new Error("palette-json must be a JSON object produced by analyze-image.mjs.");
+  }
+}
+
 function hexToRgba(hex, alpha) {
   const value = Number.parseInt(hex.slice(1), 16);
   return `rgba(${value >> 16}, ${(value >> 8) & 255}, ${value & 255}, ${alpha})`;
@@ -63,13 +73,30 @@ if (!imageStat.isFile() || imageStat.size < 1 || imageStat.size > 16 * 1024 * 10
 const name = valueFor("name", "我的 Codex Dream Skin").trim().slice(0, 80);
 const tagline = valueFor("tagline", "把喜欢的画面变成可交互的 Codex 工作台。").trim().slice(0, 160);
 const quote = valueFor("quote", "MAKE SOMETHING WONDERFUL").trim().slice(0, 80);
-const accent = validateHex(valueFor("accent", "#7cff46"), "accent");
-const secondary = validateHex(valueFor("secondary", "#36d7e8"), "secondary");
-const highlight = validateHex(valueFor("highlight", "#642a8c"), "highlight");
+const palette = parsePalette(valueFor("palette-json", "{}"));
+const preset = valueFor("preset", palette.preset || "portal").trim();
+if (!/^[a-z0-9-]{1,32}$/.test(preset)) throw new Error("preset must use lowercase letters, digits, or hyphens.");
+const artPosition = valueFor("art-position", palette.artPosition || "50% center").trim();
+if (!/^(?:100|[1-9]?\d)% (?:center|(?:100|[1-9]?\d)%)$/.test(artPosition)) {
+  throw new Error("art-position must look like '50% center'.");
+}
+const parsedAspectRatio = Number(valueFor("source-aspect-ratio", String(palette.aspectRatio || 1)));
+const sourceAspectRatio = Number.isFinite(parsedAspectRatio) && parsedAspectRatio > 0 && parsedAspectRatio <= 20
+  ? Number(parsedAspectRatio.toFixed(3)) : 1;
+const background = validateHex(valueFor("background", palette.background || "#071116"), "background");
+const panel = validateHex(valueFor("panel", palette.panel || "#0b1a20"), "panel");
+const panelAlt = validateHex(valueFor("panel-alt", palette.panelAlt || "#10272c"), "panel-alt");
+const accent = validateHex(valueFor("accent", palette.accent || "#7cff46"), "accent");
+const accentAlt = validateHex(valueFor("accent-alt", palette.accentAlt || accent), "accent-alt");
+const secondary = validateHex(valueFor("secondary", palette.secondary || "#36d7e8"), "secondary");
+const highlight = validateHex(valueFor("highlight", palette.highlight || "#642a8c"), "highlight");
+const text = validateHex(valueFor("text", palette.text || "#f2fff7"), "text");
+const muted = validateHex(valueFor("muted", palette.muted || "#a7c2ba"), "muted");
 
 const custom = {
   schemaVersion: 1,
   id: `custom-${Date.now()}`,
+  preset,
   name: name || "我的 Codex Dream Skin",
   brandSubtitle: "CODEX DREAM SKIN",
   tagline: tagline || "把喜欢的画面变成可交互的 Codex 工作台。",
@@ -78,16 +105,18 @@ const custom = {
   statusText: "DREAM SKIN ONLINE",
   quote: quote || "MAKE SOMETHING WONDERFUL",
   image,
+  artPosition,
+  sourceAspectRatio,
   colors: {
-    background: "#071116",
-    panel: "#0b1a20",
-    panelAlt: "#10272c",
+    background,
+    panel,
+    panelAlt,
     accent,
-    accentAlt: accent,
+    accentAlt,
     secondary,
     highlight,
-    text: "#f2fff7",
-    muted: "#a7c2ba",
+    text,
+    muted,
     line: hexToRgba(accent, 0.32),
   },
 };

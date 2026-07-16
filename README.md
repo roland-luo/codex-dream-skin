@@ -38,7 +38,7 @@
 
 ## 效果预览
 
-一张图，一种心情。下面是视觉方向合成图；实际皮肤会保留你当前 Codex 的真实侧栏、项目、任务和系统窗口框架，不会把示意数据写进应用。macOS 1.2.0 已提供与粉系定制最接近的可运行预设。
+一张图，一种心情。下面是视觉方向合成图；实际皮肤会保留你当前 Codex 的真实侧栏、项目、任务和系统窗口框架，不会把示意数据写进应用。macOS 1.4.0 的 Skill 会先按素材选择完整设计母版，再用实时截图对照初版验收，不再只做取色和铺背景。
 
 <p align="center">
   <img src="docs/images/gallery/skin.png" alt="粉系定制" width="900"><br>
@@ -58,7 +58,7 @@
 
 | 平台                      | 目录                     | 入口                                                      |
 | ------------------------- | ------------------------ | --------------------------------------------------------- |
-| Apple Silicon / Intel Mac | [`macos/`](./macos/)     | 双击 `Install Codex Dream Skin.command`                   |
+| Apple Silicon / Intel Mac | [`macos/`](./macos/)     | 双击 `Generate Codex Dream Skin.command`                  |
 | Windows                   | [`windows/`](./windows/) | `scripts/install-dream-skin.ps1` → `start-dream-skin.ps1` |
 
 更细的说明：

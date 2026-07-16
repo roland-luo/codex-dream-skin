@@ -144,6 +144,24 @@ html.codex-dream-skin main.main-surface > header.app-header-tint {
 }
 
 #codex-dream-skin-chrome.dream-skin-home-shell .dream-skin-brand { display: flex; }
+.dream-skin-brand-art-frame {
+  width: 30px;
+  height: 30px;
+  display: block;
+  flex: 0 0 30px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--ds-green) 34%, transparent);
+  border-radius: 50%;
+  background: var(--ds-panel);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .16);
+}
+.dream-skin-brand-art {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: var(--dream-skin-art-position, 50% center);
+}
 .dream-skin-portal-mark {
   width: 29px;
   height: 29px;
@@ -348,9 +366,16 @@ html.codex-dream-skin .dream-skin-home {
   right: 14px !important;
   top: 100% !important;
   margin-top: 13px !important;
+  z-index: 4 !important;
+  pointer-events: auto !important;
 }
 
-.dream-skin-home .group\/home-suggestions { overflow: visible !important; }
+.dream-skin-home .group\/home-suggestions {
+  position: relative !important;
+  z-index: 5 !important;
+  overflow: visible !important;
+  pointer-events: auto !important;
+}
 
 .dream-skin-home .group\/home-suggestions button {
   position: relative !important;
@@ -673,6 +698,138 @@ html.codex-dream-skin[data-dream-shell="light"] .dream-skin-quote {
 
 html.codex-dream-skin[data-dream-shell="light"] .dream-skin-particles {
   opacity: .2 !important;
+}
+
+/* Adaptive custom themes: image-derived accents with quiet native work surfaces. */
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] body {
+  background: linear-gradient(180deg, #faf9f8 0%, #f3f1ef 100%) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] body::before {
+  opacity: .06 !important;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--ds-green) 34%, transparent) 0 1px, transparent 1.7px) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] aside.app-shell-left-panel {
+  background: linear-gradient(180deg, #fff 0%, #faf9f7 100%) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 13%, transparent) !important;
+  box-shadow: 8px 0 24px rgba(28, 24, 20, .055) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] aside.app-shell-left-panel button:hover {
+  background: color-mix(in srgb, var(--ds-green) 9%, white) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] aside.app-shell-left-panel [class~="bg-token-list-hover-background"],
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] aside.app-shell-left-panel [aria-current="page"] {
+  color: color-mix(in srgb, var(--ds-green) 72%, #231f1d) !important;
+  background: color-mix(in srgb, var(--ds-green) 11%, white) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 20%, transparent) !important;
+  box-shadow: inset 3px 0 var(--ds-green) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface {
+  color: #26211f !important;
+  border-color: color-mix(in srgb, var(--ds-green) 10%, transparent) !important;
+  background:
+    linear-gradient(180deg, rgba(252, 251, 250, .94), rgba(247, 245, 243, .94)),
+    var(--dream-skin-art) var(--dream-skin-art-position, 50% center) / cover no-repeat !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface:not(.dream-skin-home-shell) {
+  background:
+    linear-gradient(105deg, rgba(253, 252, 251, .97) 0%, rgba(252, 250, 248, .95) 48%, rgba(249, 246, 243, .91) 100%),
+    var(--dream-skin-art) var(--dream-skin-art-position, 50% center) / cover no-repeat !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface:not(.dream-skin-home-shell) [role="main"] {
+  color: #26211f !important;
+  background: transparent !important;
+  text-shadow: none !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface:not(.dream-skin-home-shell) article,
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface:not(.dream-skin-home-shell) [data-message-author-role] {
+  background: rgba(255, 255, 255, .90) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 10%, transparent) !important;
+  box-shadow: 0 8px 22px rgba(35, 27, 22, .05) !important;
+  backdrop-filter: blur(12px) saturate(86%) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] main.main-surface > header.app-header-tint {
+  background: rgba(255, 254, 252, .92) !important;
+  border-bottom-color: color-mix(in srgb, var(--ds-green) 10%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home > div:first-child > div:first-child > div:first-child {
+  border-color: color-mix(in srgb, var(--ds-green) 34%, transparent) !important;
+  background-color: #181514 !important;
+  background-image:
+    linear-gradient(100deg, rgba(12, 10, 9, .86) 0%, rgba(12, 10, 9, .70) 34%, rgba(12, 10, 9, .34) 56%, rgba(12, 10, 9, .08) 76%),
+    var(--dream-skin-art) !important;
+  background-size: 100% 100%, cover !important;
+  background-position: center, var(--dream-skin-art-position, 50% center) !important;
+  box-shadow: 0 16px 36px rgba(35, 24, 18, .16), inset 0 1px rgba(255, 255, 255, .14) !important;
+  overflow: visible !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home .group\/home-suggestions button,
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .composer-surface-chrome {
+  border-color: color-mix(in srgb, var(--ds-green) 18%, transparent) !important;
+  background: rgba(255, 255, 255, .92) !important;
+  box-shadow: 0 10px 24px rgba(35, 27, 22, .07) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+  border-color: color-mix(in srgb, var(--ds-green) 15%, transparent) !important;
+  background: rgba(255, 253, 251, .94) !important;
+  box-shadow: 0 -5px 18px rgba(35, 27, 22, .05) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector)::before {
+  color: color-mix(in srgb, var(--ds-green) 80%, #241f1c) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home .group\/project-selector > button {
+  color: #2b2522 !important;
+  border-color: color-mix(in srgb, var(--ds-green) 16%, transparent) !important;
+  background: rgba(255, 255, 255, .94) !important;
+  box-shadow: 0 3px 10px rgba(35, 27, 22, .06) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .dream-skin-home .group\/home-suggestions button > span:first-child > span:first-child,
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] .composer-surface-chrome::before,
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="light"] button[class~="bg-token-foreground"] {
+  background: linear-gradient(145deg, var(--ds-lime), var(--ds-green)) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"] .dream-skin-particles,
+html.codex-dream-skin[data-dream-preset="adaptive"] .dream-skin-orbit {
+  opacity: .12 !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] body {
+  background:
+    radial-gradient(circle at 86% 4%, color-mix(in srgb, var(--ds-green) 16%, transparent), transparent 32%),
+    linear-gradient(145deg, var(--ds-bg), color-mix(in srgb, var(--ds-bg) 80%, #000)) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] aside.app-shell-left-panel {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ds-panel) 96%, #000), var(--ds-panel)) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 20%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] aside.app-shell-left-panel [class~="bg-token-list-hover-background"],
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] aside.app-shell-left-panel [aria-current="page"] {
+  background: color-mix(in srgb, var(--ds-green) 17%, transparent) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 28%, transparent) !important;
+  box-shadow: inset 3px 0 var(--ds-green) !important;
+}
+
+html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] main.main-surface:not(.dream-skin-home-shell) {
+  background:
+    linear-gradient(105deg, rgba(5, 6, 7, .97) 0%, rgba(7, 8, 9, .93) 52%, rgba(8, 9, 10, .87) 100%),
+    var(--dream-skin-art) var(--dream-skin-art-position, 50% center) / cover no-repeat !important;
 }
 
 /* ==========================================================================

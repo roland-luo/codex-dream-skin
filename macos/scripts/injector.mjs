@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
-const SKIN_VERSION = "1.2.0";
+const SKIN_VERSION = "1.4.0";
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 const MAX_ART_BYTES = 16 * 1024 * 1024;
 
@@ -229,6 +229,10 @@ async function loadTheme(themeDir) {
       ? normalized
       : fallback;
   };
+  const artPosition = typeof raw.artPosition === "string" &&
+    /^(?:100|[1-9]?\d)% (?:center|(?:100|[1-9]?\d)%)$/.test(raw.artPosition.trim())
+    ? raw.artPosition.trim() : "50% center";
+  const parsedAspectRatio = Number(raw.sourceAspectRatio);
   const theme = {
     schemaVersion: 1,
     id: text(raw.id, "custom", 80),
@@ -241,6 +245,9 @@ async function loadTheme(themeDir) {
     statusText: text(raw.statusText, "DREAM SKIN ONLINE", 80),
     quote: text(raw.quote, "MAKE SOMETHING WONDERFUL", 80),
     image: raw.image,
+    artPosition,
+    sourceAspectRatio: Number.isFinite(parsedAspectRatio) && parsedAspectRatio > 0 && parsedAspectRatio <= 20
+      ? parsedAspectRatio : 1,
     colors: {
       background: color(raw.colors?.background, "#071116"),
       panel: color(raw.colors?.panel, "#0b1a20"),
@@ -346,12 +353,14 @@ async function verifySession(session) {
     const composer = box(composerNode);
     const sidebar = box(document.querySelector('aside.app-shell-left-panel'));
     const chrome = document.getElementById('codex-dream-skin-chrome');
+    const brandArtFrame = box(chrome?.querySelector('.dream-skin-brand-art-frame'));
     const result = {
       installed: document.documentElement.classList.contains('codex-dream-skin'),
       version: window.__CODEX_DREAM_SKIN_STATE__?.version ?? null,
       stylePresent: Boolean(document.getElementById('codex-dream-skin-style')),
       chromePresent: Boolean(chrome),
       chromePointerEvents: getComputedStyle(chrome || document.body).pointerEvents,
+      brandArtFrame,
       homeRoute: Boolean(homeRoute),
       homePresent: Boolean(home),
       hero,
@@ -376,7 +385,8 @@ async function verifySession(session) {
     // Project selector markup varies across Codex builds — soft requirement.
     const homePass = !result.homeRoute || (
       result.homePresent && result.hero?.visible && result.hero.width >= 280 && result.hero.height >= 120 &&
-      result.visibleCardCount >= 1 && result.visibleCardCount <= 6 && result.cardInteractionPass
+      result.visibleCardCount >= 1 && result.visibleCardCount <= 6 && result.cardInteractionPass &&
+      result.brandArtFrame?.visible && result.brandArtFrame.width <= 80 && result.brandArtFrame.height <= 80
     );
     result.pass = Boolean(basePass && homePass);
     result.softNotes = {
@@ -416,8 +426,11 @@ async function capture(session, outputPath) {
   };
   // Warm the compositor first. Recent Codex/Chromium builds can return black
   // GPU tiles on the first capture immediately after a theme/layout update.
+  await new Promise((resolve) => setTimeout(resolve, 700));
   await session.send("Page.captureScreenshot", screenshotOptions);
-  await new Promise((resolve) => setTimeout(resolve, 160));
+  await new Promise((resolve) => setTimeout(resolve, 260));
+  await session.send("Page.captureScreenshot", screenshotOptions);
+  await new Promise((resolve) => setTimeout(resolve, 220));
   const result = await session.send("Page.captureScreenshot", screenshotOptions);
   await fs.writeFile(outputPath, Buffer.from(result.data, "base64"));
 }

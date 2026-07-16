@@ -7,11 +7,14 @@ IMAGE=""
 THEME_NAME=""
 TAGLINE=""
 QUOTE=""
-ACCENT="#7cff46"
-SECONDARY="#36d7e8"
-HIGHLIGHT="#642a8c"
+ACCENT=""
+SECONDARY=""
+HIGHLIGHT=""
+PRESET=""
+ART_POSITION=""
 APPLY_NOW="true"
 RESET_DEMO="false"
+PORT=9341
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -22,11 +25,18 @@ while [ "$#" -gt 0 ]; do
     --accent) ACCENT="${2:-}"; shift 2 ;;
     --secondary) SECONDARY="${2:-}"; shift 2 ;;
     --highlight) HIGHLIGHT="${2:-}"; shift 2 ;;
+    --preset) PRESET="${2:-}"; shift 2 ;;
+    --art-position) ART_POSITION="${2:-}"; shift 2 ;;
+    --port) PORT="${2:-}"; shift 2 ;;
     --no-apply) APPLY_NOW="false"; shift ;;
     --reset-demo) RESET_DEMO="true"; shift ;;
     *) fail "Unknown customize argument: $1" ;;
   esac
 done
+
+case "$PORT" in ''|*[!0-9]*) fail "Invalid port: $PORT" ;; esac
+[ "$PORT" -ge 1024 ] && [ "$PORT" -le 65535 ] || fail "Port must be between 1024 and 65535."
+case "$PRESET" in ''|rose|portal|adaptive) ;; *) fail "Preset must be rose, portal, or adaptive." ;; esac
 
 discover_codex_app
 require_macos_runtime
@@ -54,8 +64,9 @@ else
   /bin/chmod 700 "$THEME_DIR"
   image_name="background-$(/bin/date '+%Y%m%d-%H%M%S')-$$.jpg"
   temporary="$THEME_DIR/.${image_name}.tmp.jpg"
+  palette_bitmap="$THEME_DIR/.${image_name}.palette.bmp"
   prepared="$THEME_DIR/$image_name"
-  cleanup_temporary() { /bin/rm -f "$temporary"; }
+  cleanup_temporary() { /bin/rm -f "$temporary" "$palette_bitmap"; }
   trap cleanup_temporary EXIT
   /usr/bin/sips -s format jpeg -s formatOptions 84 -Z 3200 "$IMAGE" --out "$temporary" >/dev/null \
     || fail "macOS could not convert the selected image. Use PNG, JPEG, HEIC, TIFF, or WebP."
@@ -65,16 +76,31 @@ else
   /bin/mv -f "$temporary" "$prepared"
   /bin/chmod 600 "$prepared"
 
-  "$NODE" "$SCRIPT_DIR/write-theme.mjs" custom \
-    --output-dir "$THEME_DIR" --image "$image_name" \
-    --name "$THEME_NAME" --tagline "$TAGLINE" --quote "$QUOTE" \
-    --accent "$ACCENT" --secondary "$SECONDARY" --highlight "$HIGHLIGHT"
+  /usr/bin/sips -Z 48 -s format bmp "$prepared" --out "$palette_bitmap" >/dev/null \
+    || fail "macOS could not prepare the image palette sample."
+  PALETTE_JSON="$("$NODE" "$SCRIPT_DIR/analyze-image.mjs" "$palette_bitmap")" \
+    || fail "Could not analyze the image palette."
+  SOURCE_ASPECT_RATIO="$("$NODE" -e 'const p=JSON.parse(process.argv[1]);process.stdout.write(String(p.aspectRatio||1))' "$PALETTE_JSON")"
+  if "$NODE" -e 'process.exit(Number(process.argv[1]) < 1.4 ? 0 : 1)' "$SOURCE_ASPECT_RATIO"; then
+    printf 'Codex Dream Skin Studio: square/portrait image detected; enabling stronger task-page quieting.\n' >&2
+  fi
+
+  write_args=(custom
+    --output-dir "$THEME_DIR" --image "$image_name"
+    --name "$THEME_NAME" --tagline "$TAGLINE" --quote "$QUOTE"
+    --palette-json "$PALETTE_JSON" --source-aspect-ratio "$SOURCE_ASPECT_RATIO")
+  [ -z "$ACCENT" ] || write_args+=(--accent "$ACCENT")
+  [ -z "$SECONDARY" ] || write_args+=(--secondary "$SECONDARY")
+  [ -z "$HIGHLIGHT" ] || write_args+=(--highlight "$HIGHLIGHT")
+  [ -z "$PRESET" ] || write_args+=(--preset "$PRESET")
+  [ -z "$ART_POSITION" ] || write_args+=(--art-position "$ART_POSITION")
+  "$NODE" "$SCRIPT_DIR/write-theme.mjs" "${write_args[@]}"
   /usr/bin/find "$THEME_DIR" -maxdepth 1 -type f -name 'background-*' ! -name "$image_name" -delete
   trap - EXIT
 fi
 
 if [ "$APPLY_NOW" = "true" ]; then
-  "$SCRIPT_DIR/start-dream-skin-macos.sh" --port 9341 --prompt-restart
+  "$SCRIPT_DIR/start-dream-skin-macos.sh" --port "$PORT" --prompt-restart
 fi
 
 printf 'Codex Dream Skin Studio theme is ready.\n'

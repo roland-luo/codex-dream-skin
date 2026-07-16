@@ -11,7 +11,7 @@
     "--ds-bg", "--ds-panel", "--ds-panel-2", "--ds-green", "--ds-lime",
     "--ds-cyan", "--ds-purple", "--ds-text", "--ds-muted", "--ds-line",
     "--dream-skin-name", "--dream-skin-tagline", "--dream-skin-project-prefix",
-    "--dream-skin-project-label",
+    "--dream-skin-project-label", "--dream-skin-art-position",
   ];
   window[DISABLED_KEY] = false;
 
@@ -158,6 +158,7 @@
     root.style.setProperty("--dream-skin-tagline", cssString(THEME.tagline || "Make something wonderful."));
     root.style.setProperty("--dream-skin-project-prefix", cssString(THEME.projectPrefix || "选择项目 · "));
     root.style.setProperty("--dream-skin-project-label", cssString(THEME.projectLabel || "◉  选择项目"));
+    root.style.setProperty("--dream-skin-art-position", THEME.artPosition || "50% center");
   };
 
   const existingStyle = document.getElementById(STYLE_ID);
