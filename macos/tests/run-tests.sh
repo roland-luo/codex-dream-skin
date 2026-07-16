@@ -26,7 +26,7 @@ fi
 DEFAULT_PAYLOAD_JSON="$("$NODE" "$ROOT/scripts/injector.mjs" --check-payload)"
 "$NODE" -e '
   const value = JSON.parse(process.argv[1]);
-  if (!value.pass || value.version !== "1.4.0" || value.themePreset !== "rose" ||
+  if (!value.pass || value.version !== "1.4.1" || value.themePreset !== "rose" ||
       value.themeName !== "桥本有菜专属定制皮肤" || value.imageBytes < 1) process.exit(1);
 ' "$DEFAULT_PAYLOAD_JSON"
 
@@ -98,7 +98,7 @@ fi
 PAYLOAD_JSON="$("$NODE" "$ROOT/scripts/injector.mjs" --check-payload --theme-dir "$TMP/theme")"
 "$NODE" -e '
   const value = JSON.parse(process.argv[1]);
-  if (!value.pass || value.version !== "1.4.0" || value.themePreset !== "adaptive" ||
+  if (!value.pass || value.version !== "1.4.1" || value.themePreset !== "adaptive" ||
       value.themeName !== "测试主题" || value.imageBytes < 1) process.exit(1);
 ' "$PAYLOAD_JSON"
 "$NODE" "$ROOT/scripts/write-theme.mjs" reset-demo --output-dir "$TMP/theme" >/dev/null
@@ -128,9 +128,9 @@ esac
 
 RECOVERABLE_HOME="$(/usr/bin/dscl . -read "/Users/$(/usr/bin/id -un)" NFSHomeDirectory 2>/dev/null | /usr/bin/awk '{print $2}' || true)"
 if [ -n "$RECOVERABLE_HOME" ]; then
-  /usr/bin/env -u HOME /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.0" ]' _ "$ROOT"
+  /usr/bin/env -u HOME /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.1" ]' _ "$ROOT"
 else
-  /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.0" ]' _ "$ROOT"
+  /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.1" ]' _ "$ROOT"
 fi
 "$ROOT/scripts/doctor-macos.sh" >/dev/null
 
