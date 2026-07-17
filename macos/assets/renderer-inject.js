@@ -5,6 +5,7 @@
   const CHROME_ID = "codex-dream-skin-chrome";
   const SHELL_ATTR = "data-dream-shell";
   const PRESET_ATTR = "data-dream-preset";
+  const THEME_ATTR = "data-dream-theme";
   const VERSION = __DREAM_SKIN_VERSION_JSON__;
   const THEME = themeConfig && typeof themeConfig === "object" ? themeConfig : {};
   const THEME_VARIABLES = [
@@ -177,6 +178,7 @@
     root.classList.add("codex-dream-skin");
     root.setAttribute(SHELL_ATTR, shell);
     root.setAttribute(PRESET_ATTR, THEME.preset || "portal");
+    root.setAttribute(THEME_ATTR, THEME.id || "custom");
     root.style.setProperty("--dream-skin-art", `url("${artUrl}")`);
     applyTheme(root, shell);
 
@@ -239,6 +241,7 @@
     chrome.classList.toggle("dream-skin-home-shell", Boolean(home));
     chrome.dataset.dreamShell = shell;
     chrome.dataset.dreamPreset = THEME.preset || "portal";
+    chrome.dataset.dreamTheme = THEME.id || "custom";
   };
 
   const cleanup = () => {
@@ -246,6 +249,7 @@
     document.documentElement?.classList.remove("codex-dream-skin");
     document.documentElement?.removeAttribute(SHELL_ATTR);
     document.documentElement?.removeAttribute(PRESET_ATTR);
+    document.documentElement?.removeAttribute(THEME_ATTR);
     document.documentElement?.style.removeProperty("--dream-skin-art");
     for (const name of THEME_VARIABLES) document.documentElement?.style.removeProperty(name);
     document.querySelectorAll(".dream-skin-home").forEach((node) => node.classList.remove("dream-skin-home"));

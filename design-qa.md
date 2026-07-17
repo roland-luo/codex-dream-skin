@@ -1,4 +1,18 @@
-# Design QA — Theme-linked interface palettes (1.5.1)
+# Design QA — Non-rose bottom-right theme cards (1.5.2)
+
+- Reported mismatch: rose displayed a bottom-right artwork card, while mecha, green, cyber, and obsidian did not
+- Deterministic pre-fix evidence: `macos/tests/theme-card-style-harness.mjs` failed with `non-rose home themes still hide the bottom-right card`
+- Post-fix evidence: the same harness passes renderer markup, desktop visibility, theme ID exposure, four theme-specific selectors, a reserved 190px lane, and compact-width hiding
+- Card directions: angular industrial badge for mecha, soft botanical card for green, cyan/magenta neon card for cyber, and cold minimal plate for obsidian
+- Responsive behavior: cards display only on home screens wider than 1120px and remain inside the non-interactive injected chrome
+- Full automated evidence: `macos/tests/run-tests.sh` passes syntax, payload, custom theme, rotation, CLI, config recovery, signature, and doctor checks
+- Live screenshot: unavailable because Codex and the verified loopback CDP session are currently stopped
+
+1.5.2 result: blocked pending live screenshot
+
+## Prior palette report (1.5.1)
+
+# Theme-linked interface palettes
 
 - Reported mismatch: switching away from the rose theme replaced the artwork but left the light-shell UI pink
 - Deterministic renderer evidence: `macos/tests/theme-style-harness.mjs` reproduced `#f6f2f3` for all four non-rose themes before the fix

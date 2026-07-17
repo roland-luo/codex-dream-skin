@@ -114,7 +114,9 @@ if (expected) {
 if (actual.accent !== (theme.lightColors?.accent || theme.colors.accent)) {
   throw new Error(`${theme.id}: accent is not linked to theme colors`);
 }
-if (attributes.get("data-dream-preset") !== theme.preset || window.__CODEX_DREAM_SKIN_STATE__?.themeId !== theme.id) {
+if (attributes.get("data-dream-preset") !== theme.preset ||
+    attributes.get("data-dream-theme") !== theme.id ||
+    window.__CODEX_DREAM_SKIN_STATE__?.themeId !== theme.id) {
   throw new Error(`${theme.id}: hot switch kept stale runtime theme attributes`);
 }
 if (elements.get("codex-dream-skin-style")?.textContent !== `/* ${theme.id} */`) {

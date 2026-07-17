@@ -14,6 +14,7 @@
 10. Pause and Restore disable the rotation LaunchAgent before removing the live skin.
 11. The installed `codex-dream-skin` command lists all themes and switches by ID or exact Chinese name; switching is hot-only unless the user explicitly passes `--restart`.
 12. Switching themes updates light and dark surface, text, border, accent, selection, card, and composer tokens; non-rose themes never inherit the rose light-shell palette.
+13. Every built-in theme shows a bottom-right artwork card on wide home screens; non-rose cards have theme-specific styling, reserve their own layout lane, and hide at compact widths before covering native controls.
 
 ## Automated checks
 
@@ -34,6 +35,7 @@
 - Rotation tests cover enable/status, LaunchAgent plist fields, six ordered advances including wraparound, preservation of a user theme directory, and disable cleanup.
 - Terminal CLI tests cover five-theme listing, Chinese-name selection, the per-user launcher, and safe queued switching when CDP is unavailable.
 - The renderer style harness hot-switches from rose to every built-in theme and asserts the active preset, theme ID, stylesheet, and light-shell palette all refresh together.
+- The theme-card harness asserts the renderer markup, non-rose visibility rule, four theme-specific selectors, reserved desktop lane, and compact-width hide rule.
 
 ## Visual checks
 

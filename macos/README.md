@@ -38,6 +38,8 @@ The user-level LaunchAgent survives login/restart and triggers every 1,800 secon
 
 Each theme changes both the artwork and the interface tokens. Sidebar selection, panels, cards, composer accents, text, borders, and light/dark surfaces follow the active palette instead of retaining the pink theme colors.
 
+On wide home screens every built-in theme also has a bottom-right artwork card. Mecha, green, cyber, and obsidian use their own card treatment; the card hides below 1,120 px so it never covers the native project picker or composer.
+
 Other menu actions:
 
 - **立即切换下一个主题** — advance once without changing the timer
