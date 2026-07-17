@@ -116,25 +116,27 @@
 
   const applyTheme = (root, shell) => {
     const colors = THEME.colors || {};
-    const accent = colors.accent || (shell === "light" ? "#e25563" : "#7cff46");
-    const accentAlt = colors.accentAlt || accent;
-    const secondary = colors.secondary || (shell === "light" ? "#f3a8af" : "#36d7e8");
-    const highlight = colors.highlight || (shell === "light" ? "#c93d4c" : "#642a8c");
+    const lightColors = THEME.lightColors || {};
+    const accent = (shell === "light" ? lightColors.accent : colors.accent) || colors.accent || (shell === "light" ? "#52606d" : "#7cff46");
+    const accentAlt = (shell === "light" ? lightColors.accentAlt : colors.accentAlt) || colors.accentAlt || accent;
+    const secondary = (shell === "light" ? lightColors.secondary : colors.secondary) || colors.secondary || (shell === "light" ? "#718096" : "#36d7e8");
+    const highlight = (shell === "light" ? lightColors.highlight : colors.highlight) || colors.highlight || (shell === "light" ? "#334e68" : "#642a8c");
 
     let variables;
     if (shell === "light") {
-      // Structural tokens stay light so banners stay readable; accents follow theme.
+      // Curated or image-derived light surfaces follow the active theme while
+      // keeping native text and controls readable.
       variables = {
-        "--ds-bg": "#f6f2f3",
-        "--ds-panel": "#ffffff",
-        "--ds-panel-2": "#fff7f8",
+        "--ds-bg": lightColors.background || "#f2f4f5",
+        "--ds-panel": lightColors.panel || "#ffffff",
+        "--ds-panel-2": lightColors.panelAlt || "#eef1f3",
         "--ds-green": accent,
         "--ds-lime": accentAlt,
         "--ds-cyan": secondary,
         "--ds-purple": highlight,
-        "--ds-text": "#1f1a1b",
-        "--ds-muted": "#6b5f62",
-        "--ds-line": colors.line || "rgba(196, 120, 128, .22)",
+        "--ds-text": lightColors.text || "#1f2428",
+        "--ds-muted": lightColors.muted || "#626b73",
+        "--ds-line": lightColors.line || colors.line || "rgba(98, 107, 115, .22)",
       };
     } else {
       variables = {

@@ -15,6 +15,7 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+"$SCRIPT_DIR/rotate-themes-macos.sh" --disable --quiet >/dev/null
 discover_codex_app
 require_macos_runtime
 ensure_state_root

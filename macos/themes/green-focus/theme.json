@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "green-focus",
+  "preset": "portal",
+  "name": "绿色护眼",
+  "brandSubtitle": "GREEN FOCUS",
+  "tagline": "低饱和自然绿，安静专注每一次思考",
+  "projectPrefix": "选择项目 · ",
+  "projectLabel": "◉  选择项目",
+  "statusText": "FOCUS GARDEN ONLINE",
+  "quote": "BREATHE AND CREATE",
+  "image": "background.png",
+  "artPosition": "69% center",
+  "sourceAspectRatio": 1.777,
+  "colors": {
+    "background": "#0b1712",
+    "panel": "#10241a",
+    "panelAlt": "#173122",
+    "accent": "#8bcf8a",
+    "accentAlt": "#b5e4a7",
+    "secondary": "#6faf9a",
+    "highlight": "#c9bd7e",
+    "text": "#eaf4ea",
+    "muted": "#a4b8a8",
+    "line": "rgba(139, 207, 138, .24)"
+  },
+  "lightColors": {
+    "background": "#eef5ee",
+    "panel": "#fbfdf9",
+    "panelAlt": "#e5f0e4",
+    "accent": "#4f8f58",
+    "accentAlt": "#72ad72",
+    "secondary": "#4e8979",
+    "highlight": "#897b38",
+    "text": "#193021",
+    "muted": "#607565",
+    "line": "rgba(91, 151, 94, .24)"
+  }
+}

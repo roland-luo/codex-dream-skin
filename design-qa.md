@@ -1,3 +1,84 @@
+# Design QA — Theme-linked interface palettes (1.5.1)
+
+- Reported mismatch: switching away from the rose theme replaced the artwork but left the light-shell UI pink
+- Deterministic renderer evidence: `macos/tests/theme-style-harness.mjs` reproduced `#f6f2f3` for all four non-rose themes before the fix
+- Post-fix renderer evidence: rose, mecha, green, cyber, and obsidian each resolve distinct light background, panel, text, muted, border, and accent values
+- Hot-switch evidence: the harness applies rose first, then each target theme in the same renderer context and verifies the preset attribute, runtime theme ID, stylesheet text, and root variables all refresh
+- Full automated evidence: `macos/tests/run-tests.sh` passes syntax, all theme payloads, custom-theme generation, rotation, CLI switching, config recovery, signature validation, and doctor checks
+- Live screenshot: unavailable because the current state reports no running Codex or verified loopback CDP session
+
+## 1.5.1 result
+
+- No automated palette-linkage failures remain.
+- Live visual signoff is still blocked until Codex is running under the verified local CDP session.
+
+1.5.1 result: blocked
+
+## Prior five-theme report (1.5.0)
+
+# Five-theme rotation and terminal switching
+
+- Source visual truth: the five bundled `macos/themes/*/background.png` assets and their matching `theme.json` palettes
+- Generated artwork inspected: mecha forge, eye-care green, cyber grid, and obsidian zero; the existing rose editorial image remains the pink theme
+- Asset viewport: all four new generated backgrounds are 1672 × 941, 16:9, with a deliberately quiet left third and primary visual interest near center-right
+- Live implementation screenshot: unavailable; no verified live Codex CDP renderer was running during this release check
+- Automated evidence: `macos/tests/run-tests.sh` passes theme payloads, ordered rotation, CLI installation and switching, signature validation, and doctor checks
+
+## 1.5.0 finding
+
+- [P2] Live cross-theme layout remains visually unconfirmed.
+  - Evidence: all five theme configurations pass payload construction and local asset checks, and the four generated images were individually inspected for crop safety, readability, fake UI, text, and watermark issues. A real renderer capture for each theme could not be produced without restarting Codex into a verified loopback-CDP session.
+  - Impact: theme assets and switching behavior are regression-tested, but final in-app banner/composer spacing across all five palettes cannot be certified from live screenshots in this run.
+  - Follow-up: capture the five home states and one representative task state from a verified live CDP session before release signoff.
+
+## 1.5.0 checklist
+
+- [x] Inspect every generated background at source resolution
+- [x] Confirm wide composition, quiet content lane, and absence of raster UI/text
+- [x] Validate five theme payloads and ordered rotation
+- [x] Verify menu and terminal switching remain hot-only by default
+- [ ] Capture all five themes in the live native Codex renderer
+
+1.5.0 result: blocked
+
+## Prior hotfix report (1.4.2)
+
+# Rose project/composer spacing hotfix
+
+- Source visual truth: `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-13f185df-7857-4894-87d8-6da813b8215d.png`
+- Implementation screenshot: unavailable; no verified live Codex CDP renderer was running, and the in-app Browser blocked the local focused-preview URL
+- Source viewport: 943 × 187 crop
+- State: macOS Codex, `rose` preset, New Task home, project selector directly above the composer
+- Full-view comparison evidence: the supplied source crop was opened and inspected; a matching post-fix live capture could not be produced without restarting Codex into a verified loopback-CDP session
+- Focused comparison evidence: blocked for the same reason; the affected crop is already the focused project-selector/composer region
+
+## Current finding
+
+- [P2] Post-fix live spacing remains visually unconfirmed.
+  - Location: rose home project selector and `.composer-surface-chrome`.
+  - Evidence: the source shows the composer starting at the same vertical edge as the project-button row, clipping the lower part of that row. The implementation removes the rose composer's `-14px` vertical translation while preserving its `-54px` horizontal alignment, but a rendered implementation screenshot is unavailable.
+  - Impact: static and regression verification pass, but the final pixel gap and bottom viewport clearance cannot be certified from live evidence in this run.
+  - Fix applied: changed `transform: translate(-54px, -14px)` to `transform: translate(-54px, 0)` and added a regression assertion to the macOS test suite.
+
+## Current fidelity check
+
+- Fonts and typography: unchanged by this hotfix; live post-fix rendering not recaptured.
+- Spacing and layout rhythm: the known `14px` upward collision was removed; final live spacing is pending capture.
+- Colors and visual tokens: unchanged.
+- Image quality and asset fidelity: unchanged; no assets were added or replaced.
+- Copy and content: unchanged; native project and composer content remain intact.
+
+## Current implementation checklist
+
+- [x] Remove the negative desktop composer Y offset
+- [x] Preserve the existing horizontal alignment
+- [x] Add a layout regression assertion
+- [x] Bump the patch version and update the user-facing changelog
+- [x] Run the full macOS regression suite
+- [ ] Capture the rose home screen from a verified live CDP session
+
+## Prior full-build report (1.4.1)
+
 # Design QA — Rose editorial preset
 
 - Source visual truth: `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-3ce53fd2-d176-47cb-9ec9-6fec267ca6c9.png`
@@ -121,4 +202,8 @@ iteration result: blocked
 
 - A future licensed pure hero carrying the exact handwritten mark could close the remaining P3 image-content difference without changing layout code.
 
-final result: passed
+prior full-build result: passed
+
+## Current result
+
+final result: blocked

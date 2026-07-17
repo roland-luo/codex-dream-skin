@@ -34,6 +34,14 @@ function hexToRgba(hex, alpha) {
   return `rgba(${value >> 16}, ${(value >> 8) & 255}, ${value & 255}, ${alpha})`;
 }
 
+function mixHex(foreground, background, weight) {
+  const channel = (hex, offset) => Number.parseInt(hex.slice(offset, offset + 2), 16);
+  const mixed = [1, 3, 5].map((offset) => Math.round(
+    channel(foreground, offset) * weight + channel(background, offset) * (1 - weight),
+  ));
+  return `#${mixed.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+}
+
 async function atomicWrite(file, value) {
   await fs.mkdir(path.dirname(file), { recursive: true, mode: 0o700 });
   const temporary = `${file}.${process.pid}.tmp`;
@@ -118,6 +126,18 @@ const custom = {
     text,
     muted,
     line: hexToRgba(accent, 0.32),
+  },
+  lightColors: {
+    background: mixHex(accent, "#f5f7f8", 0.08),
+    panel: mixHex(accent, "#ffffff", 0.025),
+    panelAlt: mixHex(accent, "#ffffff", 0.11),
+    accent,
+    accentAlt,
+    secondary,
+    highlight,
+    text: mixHex(accent, "#171a1d", 0.08),
+    muted: mixHex(accent, "#626a72", 0.14),
+    line: hexToRgba(accent, 0.22),
   },
 };
 

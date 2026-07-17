@@ -22,17 +22,91 @@ if /usr/bin/grep -R -n -E '(writeFile|rename|copyFile|rm).*app\.asar' "$ROOT/scr
   printf 'A runtime script appears to mutate app.asar.\n' >&2
   exit 1
 fi
+if ! /usr/bin/grep -F 'transform: translate(-54px, 0);' "$ROOT/assets/dream-skin.css" >/dev/null; then
+  printf 'Rose composer spacing regressed: the desktop composer must not cover the project selector.\n' >&2
+  exit 1
+fi
 
 DEFAULT_PAYLOAD_JSON="$("$NODE" "$ROOT/scripts/injector.mjs" --check-payload)"
 "$NODE" -e '
   const value = JSON.parse(process.argv[1]);
-  if (!value.pass || value.version !== "1.4.1" || value.themePreset !== "rose" ||
+  if (!value.pass || value.version !== "1.5.1" || value.themePreset !== "rose" ||
       value.themeName !== "桥本有菜专属定制皮肤" || value.imageBytes < 1) process.exit(1);
 ' "$DEFAULT_PAYLOAD_JSON"
 
 TMP="$(/usr/bin/mktemp -d /tmp/codex-dream-skin-tests.XXXXXX)"
 trap '/bin/rm -rf "$TMP"' EXIT
 /bin/mkdir -p "$TMP/theme"
+
+# Five bundled themes + safe 30-minute rotation state machine.
+MANIFEST_JSON="$(/bin/cat "$ROOT/themes/manifest.json")"
+"$NODE" -e '
+  const value = JSON.parse(process.argv[1]);
+  const expected = ["rose-editorial", "mecha-forge", "green-focus", "cyber-grid", "obsidian-zero"];
+  if (value.schemaVersion !== 1 || value.rotationIntervalSeconds !== 1800 ||
+      JSON.stringify(value.themes) !== JSON.stringify(expected)) process.exit(1);
+' "$MANIFEST_JSON"
+while IFS= read -r theme_id; do
+  BUILTIN_PAYLOAD_JSON="$("$NODE" "$ROOT/scripts/injector.mjs" --check-payload --theme-dir "$ROOT/themes/$theme_id")"
+  "$NODE" -e '
+    const value = JSON.parse(process.argv[1]);
+    if (!value.pass || value.themeId !== process.argv[2] || value.imageBytes < 100000) process.exit(1);
+  ' "$BUILTIN_PAYLOAD_JSON" "$theme_id"
+  "$NODE" "$ROOT/tests/theme-style-harness.mjs" "$ROOT/themes/$theme_id/theme.json" >/dev/null
+done < <("$NODE" -e 'for (const id of JSON.parse(process.argv[1]).themes) console.log(id)' "$MANIFEST_JSON")
+
+ROTATION_HOME="$TMP/rotation-home"
+ROTATION_LAUNCH_AGENTS="$ROTATION_HOME/Library/LaunchAgents"
+/bin/mkdir -p "$ROTATION_LAUNCH_AGENTS"
+rotation_env=(/usr/bin/env HOME="$ROTATION_HOME"
+  CODEX_DREAM_SKIN_LAUNCH_AGENTS_DIR="$ROTATION_LAUNCH_AGENTS"
+  CODEX_DREAM_SKIN_SKIP_LAUNCHCTL=true)
+"${rotation_env[@]}" "$ROOT/scripts/install-builtin-themes-macos.sh" --quiet
+/bin/mkdir -p "$ROTATION_HOME/Library/Application Support/CodexDreamSkinStudio/themes/user-custom"
+/usr/bin/touch "$ROTATION_HOME/Library/Application Support/CodexDreamSkinStudio/themes/user-custom/keep-me"
+"${rotation_env[@]}" "$ROOT/scripts/install-builtin-themes-macos.sh" --quiet
+[ -f "$ROTATION_HOME/Library/Application Support/CodexDreamSkinStudio/themes/user-custom/keep-me" ]
+"${rotation_env[@]}" "$ROOT/scripts/rotate-themes-macos.sh" --enable --quiet >/dev/null
+ROTATION_PLIST="$ROTATION_LAUNCH_AGENTS/com.openai.codex-dream-skin-studio.rotation.plist"
+[ "$(/usr/bin/plutil -extract StartInterval raw -o - "$ROTATION_PLIST")" = "1800" ]
+[ "$(/usr/bin/plutil -extract RunAtLoad raw -o - "$ROTATION_PLIST")" = "false" ]
+ROTATION_STATUS_JSON="$("${rotation_env[@]}" "$ROOT/scripts/status-dream-skin-macos.sh" --json)"
+"$NODE" -e '
+  const value = JSON.parse(process.argv[1]);
+  if (!value.rotationEnabled || value.rotationIntervalSeconds !== 1800) process.exit(1);
+' "$ROTATION_STATUS_JSON"
+for expected_id in rose-editorial mecha-forge green-focus cyber-grid obsidian-zero rose-editorial; do
+  "${rotation_env[@]}" "$ROOT/scripts/rotate-themes-macos.sh" --next --quiet >/dev/null 2>&1
+  active_id="$("$NODE" -e '
+    const fs = require("fs");
+    process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1], "utf8")).id);
+  ' "$ROTATION_HOME/Library/Application Support/CodexDreamSkinStudio/theme/theme.json")"
+  [ "$active_id" = "$expected_id" ] || {
+    printf 'Theme rotation order mismatch: expected %s, got %s.\n' "$expected_id" "$active_id" >&2
+    exit 1
+  }
+done
+if /usr/bin/grep -q -- '--restart-existing' "$ROOT/scripts/rotate-themes-macos.sh"; then
+  printf 'Scheduled theme rotation must never restart Codex.\n' >&2
+  exit 1
+fi
+"${rotation_env[@]}" "$ROOT/scripts/rotate-themes-macos.sh" --disable --quiet >/dev/null
+[ ! -e "$ROTATION_PLIST" ]
+CLI_LIST="$("${rotation_env[@]}" "$ROOT/scripts/theme-cli-macos.sh" list)"
+[ "$(printf '%s\n' "$CLI_LIST" | /usr/bin/grep -c -E 'rose-editorial|mecha-forge|green-focus|cyber-grid|obsidian-zero')" -eq 5 ]
+CLI_USE="$("${rotation_env[@]}" "$ROOT/scripts/theme-cli-macos.sh" use '赛博风')"
+case "$CLI_USE" in *'cyber-grid'*) ;; *) printf 'Theme CLI did not resolve a Chinese theme name.\n' >&2; exit 1 ;; esac
+CLI_ACTIVE_ID="$("$NODE" -e '
+  const fs = require("fs");
+  process.stdout.write(JSON.parse(fs.readFileSync(process.argv[1], "utf8")).id);
+' "$ROTATION_HOME/Library/Application Support/CodexDreamSkinStudio/theme/theme.json")"
+[ "$CLI_ACTIVE_ID" = "cyber-grid" ]
+CLI_BIN="$ROTATION_HOME/bin"
+"${rotation_env[@]}" CODEX_DREAM_SKIN_BIN_DIR="$CLI_BIN" "$ROOT/scripts/install-theme-cli-macos.sh" >/dev/null
+[ -x "$CLI_BIN/codex-dream-skin" ]
+CLI_WRAPPER_LIST="$("${rotation_env[@]}" "$CLI_BIN/codex-dream-skin" list)"
+case "$CLI_WRAPPER_LIST" in *'玄黑冷酷风'*) ;; *) printf 'Installed theme CLI wrapper is not usable.\n' >&2; exit 1 ;; esac
+
 if HOME="$TMP" "$ROOT/scripts/generate-dream-skin-macos.sh" --port 1 >/dev/null 2>&1; then
   printf 'One-click generator accepted an unsafe CDP port.\n' >&2
   exit 1
@@ -98,9 +172,10 @@ fi
 PAYLOAD_JSON="$("$NODE" "$ROOT/scripts/injector.mjs" --check-payload --theme-dir "$TMP/theme")"
 "$NODE" -e '
   const value = JSON.parse(process.argv[1]);
-  if (!value.pass || value.version !== "1.4.1" || value.themePreset !== "adaptive" ||
+  if (!value.pass || value.version !== "1.5.1" || value.themePreset !== "adaptive" ||
       value.themeName !== "测试主题" || value.imageBytes < 1) process.exit(1);
 ' "$PAYLOAD_JSON"
+"$NODE" "$ROOT/tests/theme-style-harness.mjs" "$TMP/theme/theme.json" >/dev/null
 "$NODE" "$ROOT/scripts/write-theme.mjs" reset-demo --output-dir "$TMP/theme" >/dev/null
 [ ! -e "$TMP/theme" ]
 
@@ -128,9 +203,9 @@ esac
 
 RECOVERABLE_HOME="$(/usr/bin/dscl . -read "/Users/$(/usr/bin/id -un)" NFSHomeDirectory 2>/dev/null | /usr/bin/awk '{print $2}' || true)"
 if [ -n "$RECOVERABLE_HOME" ]; then
-  /usr/bin/env -u HOME /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.1" ]' _ "$ROOT"
+  /usr/bin/env -u HOME /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.5.1" ]' _ "$ROOT"
 else
-  /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.4.1" ]' _ "$ROOT"
+  /bin/bash -c '. "$1/scripts/common-macos.sh"; [ -n "$HOME" ] && [ "$SKIN_VERSION" = "1.5.1" ]' _ "$ROOT"
 fi
 "$ROOT/scripts/doctor-macos.sh" >/dev/null
 

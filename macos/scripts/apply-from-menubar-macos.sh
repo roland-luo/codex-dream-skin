@@ -84,6 +84,6 @@ if [ "$code" -eq 0 ]; then
 fi
 
 detail="$(/usr/bin/tail -n 5 "$LOG_OUT" 2>/dev/null | /usr/bin/tr '\n' ' ' | /usr/bin/cut -c1-350)"
-alert "应用失败（$code）。$detail"
+alert "应用失败（${code}）。$detail"
 progress "失败，见通知弹窗"
 exit "$code"

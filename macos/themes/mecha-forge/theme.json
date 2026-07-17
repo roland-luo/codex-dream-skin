@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "mecha-forge",
+  "preset": "portal",
+  "name": "机甲风",
+  "brandSubtitle": "MECHA FORGE",
+  "tagline": "钢铁秩序，点燃高效创造力",
+  "projectPrefix": "选择项目 · ",
+  "projectLabel": "◉  选择项目",
+  "statusText": "FORGE SYSTEM ONLINE",
+  "quote": "BUILD WITH POWER",
+  "image": "background.png",
+  "artPosition": "68% center",
+  "sourceAspectRatio": 1.777,
+  "colors": {
+    "background": "#080d12",
+    "panel": "#101820",
+    "panelAlt": "#17222b",
+    "accent": "#f2a93b",
+    "accentAlt": "#ffc65c",
+    "secondary": "#7896aa",
+    "highlight": "#d97818",
+    "text": "#f3f6f8",
+    "muted": "#9aa9b2",
+    "line": "rgba(242, 169, 59, .28)"
+  },
+  "lightColors": {
+    "background": "#f1eee8",
+    "panel": "#fffaf2",
+    "panelAlt": "#f5ead7",
+    "accent": "#bd7210",
+    "accentAlt": "#dc9429",
+    "secondary": "#607d90",
+    "highlight": "#9d4f0d",
+    "text": "#242019",
+    "muted": "#746653",
+    "line": "rgba(210, 137, 30, .26)"
+  }
+}

@@ -24,6 +24,7 @@ CUSTOMIZE="$SCRIPTS/customize-theme-macos.sh"
 RESTORE="$SCRIPTS/restore-dream-skin-macos.sh"
 STATUS="$SCRIPTS/status-dream-skin-macos.sh"
 SWITCH="$SCRIPTS/switch-theme-macos.sh"
+ROTATE="$SCRIPTS/rotate-themes-macos.sh"
 LOAD_IMG="$SCRIPTS/load-image-theme-macos.sh"
 [ -x "$APPLY" ] || APPLY="$START"
 
@@ -43,6 +44,7 @@ TITLE="Skin 关"
 THEME_LINE=""
 CODEX_LINE="false"
 SESSION_LINE="off"
+ROTATION_LINE="false"
 
 if [ -x "$STATUS" ]; then
   while IFS= read -r line; do
@@ -50,6 +52,7 @@ if [ -x "$STATUS" ]; then
       session=*) SESSION_LINE="${line#session=}" ;;
       codex=*) CODEX_LINE="${line#codex=}" ;;
       theme=*) THEME_LINE="${line#theme=}" ;;
+      rotation=*) ROTATION_LINE="${line#rotation=}" ;;
     esac
   done < <("$STATUS" 2>/dev/null)
   case "$SESSION_LINE" in
@@ -58,6 +61,10 @@ if [ -x "$STATUS" ]; then
     stale|unknown) TITLE="Skin ?" ;;
     *) TITLE="Skin 关" ;;
   esac
+fi
+
+if [ "$ROTATION_LINE" = "true" ]; then
+  TITLE="$TITLE ↻"
 fi
 
 echo "$TITLE"
@@ -72,11 +79,24 @@ if [ "$CODEX_LINE" = "true" ]; then
 else
   echo "Codex: 未打开 | color=#c45c26"
 fi
+if [ "$ROTATION_LINE" = "true" ]; then
+  echo "自动轮换: 开（每 30 分钟） | color=#4f9b68"
+else
+  echo "自动轮换: 关 | color=#888888"
+fi
 
 echo "---"
 echo "应用皮肤 | bash=\"$APPLY\" terminal=false refresh=true"
 echo "暂停皮肤 | bash=\"$PAUSE\" terminal=false refresh=true"
 echo "换一张图… | bash=\"$CUSTOMIZE\" terminal=false refresh=true"
+if [ -x "$ROTATE" ]; then
+  if [ "$ROTATION_LINE" = "true" ]; then
+    echo "关闭自动轮换 | bash=\"$ROTATE\" param1=\"--disable\" terminal=false refresh=true"
+  else
+    echo "开启自动轮换（30 分钟） | bash=\"$ROTATE\" param1=\"--enable\" terminal=false refresh=true"
+  fi
+  echo "立即切换下一个主题 | bash=\"$ROTATE\" param1=\"--next\" terminal=false refresh=true"
+fi
 
 # Dynamic: saved theme packs
 echo "已保存的主题"
@@ -90,7 +110,7 @@ if [ -d "$THEMES_ROOT" ]; then
     [ -n "$tname" ] || tname="$tid"
     mark=""
     [ "$tname" = "$THEME_LINE" ] && mark=" ✓"
-    echo "-- $tname$mark | bash=\"$SWITCH\" param1=\"--id\" param2=\"$tid\" terminal=false refresh=true"
+    echo "-- $tname$mark | bash=\"$SWITCH\" param1=\"--id\" param2=\"$tid\" param3=\"--hot-only\" terminal=false refresh=true"
     theme_count=$((theme_count + 1))
   done
 fi

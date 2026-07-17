@@ -15,6 +15,7 @@ done
 
 PLUGIN_SRC="$PROJECT_ROOT/menubar/codex_dream_skin.10s.sh"
 [ -f "$PLUGIN_SRC" ] || fail "Plugin source missing: $PLUGIN_SRC"
+"$PROJECT_ROOT/scripts/install-builtin-themes-macos.sh" --quiet
 
 # Prefer installed engine when this tree is the repo and engine already exists.
 ENGINE_ROOT="$PROJECT_ROOT"
@@ -37,11 +38,14 @@ PLUGIN_DST="$PLUGIN_DIR/codex_dream_skin.10s.sh"
 
 # Keep a copy inside the engine tree when installed separately from this tree.
 if [ -d "$INSTALL_ROOT" ] && [ "$PROJECT_ROOT" != "$INSTALL_ROOT" ]; then
-  /bin/mkdir -p "$INSTALL_ROOT/menubar" "$INSTALL_ROOT/scripts"
+  /bin/mkdir -p "$INSTALL_ROOT/menubar" "$INSTALL_ROOT/scripts" "$INSTALL_ROOT/themes"
   /bin/cp -f "$PLUGIN_SRC" "$INSTALL_ROOT/menubar/codex_dream_skin.10s.sh"
   /bin/chmod 755 "$INSTALL_ROOT/menubar/codex_dream_skin.10s.sh"
-  for name in pause-dream-skin-macos.sh status-dream-skin-macos.sh apply-from-menubar-macos.sh \
-    switch-theme-macos.sh load-image-theme-macos.sh install-menubar-macos.sh; do
+  /usr/bin/rsync -a --delete "$PROJECT_ROOT/themes/" "$INSTALL_ROOT/themes/"
+  for name in common-macos.sh pause-dream-skin-macos.sh status-dream-skin-macos.sh apply-from-menubar-macos.sh \
+    switch-theme-macos.sh rotate-themes-macos.sh install-builtin-themes-macos.sh \
+    theme-cli-macos.sh install-theme-cli-macos.sh \
+    load-image-theme-macos.sh install-menubar-macos.sh; do
     if [ -f "$PROJECT_ROOT/scripts/$name" ]; then
       /bin/cp -f "$PROJECT_ROOT/scripts/$name" "$INSTALL_ROOT/scripts/$name"
       /bin/chmod 755 "$INSTALL_ROOT/scripts/$name"
@@ -49,11 +53,17 @@ if [ -d "$INSTALL_ROOT" ] && [ "$PROJECT_ROOT" != "$INSTALL_ROOT" ]; then
   done
 fi
 
+"$ENGINE_ROOT/scripts/install-theme-cli-macos.sh"
+
 /bin/chmod 755 \
   "$PROJECT_ROOT/scripts/pause-dream-skin-macos.sh" \
   "$PROJECT_ROOT/scripts/status-dream-skin-macos.sh" \
   "$PROJECT_ROOT/scripts/apply-from-menubar-macos.sh" \
   "$PROJECT_ROOT/scripts/switch-theme-macos.sh" \
+  "$PROJECT_ROOT/scripts/rotate-themes-macos.sh" \
+  "$PROJECT_ROOT/scripts/install-builtin-themes-macos.sh" \
+  "$PROJECT_ROOT/scripts/theme-cli-macos.sh" \
+  "$PROJECT_ROOT/scripts/install-theme-cli-macos.sh" \
   "$PROJECT_ROOT/scripts/load-image-theme-macos.sh" \
   "$PROJECT_ROOT/scripts/install-menubar-macos.sh" \
   "$PROJECT_ROOT/Install Menu Bar.command" 2>/dev/null || true

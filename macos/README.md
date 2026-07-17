@@ -26,7 +26,50 @@ That single command installs or updates the stable engine, prepares the image, d
 
 If Codex is already running without the verified skin CDP endpoint, macOS asks once before restarting it. The installer also creates Desktop launchers for generate, customize, start, verify, and restore.
 
-Optional menu bar controls: double-click `Install Menu Bar.command`, then look for 🎨 Skin in the top-right menu bar.
+Optional menu bar controls: double-click `Install Menu Bar.command`, then look for 🎨 Skin in the top-right menu bar. The installer adds five built-in themes: **粉色系、机甲风、绿色护眼、赛博风、玄黑冷酷风**.
+
+## Five-theme automatic rotation
+
+From the menu bar choose **开启自动轮换（30 分钟）**. The themes rotate in this order:
+
+`粉色系 → 机甲风 → 绿色护眼 → 赛博风 → 玄黑冷酷风`
+
+The user-level LaunchAgent survives login/restart and triggers every 1,800 seconds. Scheduled changes only use the existing verified loopback CDP session. If Codex is closed or CDP is unavailable, the next theme is selected for the next Apply instead of silently restarting Codex.
+
+Each theme changes both the artwork and the interface tokens. Sidebar selection, panels, cards, composer accents, text, borders, and light/dark surfaces follow the active palette instead of retaining the pink theme colors.
+
+Other menu actions:
+
+- **立即切换下一个主题** — advance once without changing the timer
+- **关闭自动轮换** — stop the LaunchAgent and keep the current theme
+- **暂停皮肤 / 完全恢复** — also stop automatic rotation so it cannot reapply the skin
+
+CLI equivalents:
+
+```bash
+./scripts/rotate-themes-macos.sh --enable
+./scripts/rotate-themes-macos.sh --next
+./scripts/rotate-themes-macos.sh --status
+./scripts/rotate-themes-macos.sh --disable
+```
+
+## Manual theme switching from Terminal
+
+The installer creates `~/.local/bin/codex-dream-skin`. If that directory is already in `PATH`, use:
+
+```bash
+codex-dream-skin list
+codex-dream-skin use 机甲风
+codex-dream-skin use cyber-grid
+codex-dream-skin next
+codex-dream-skin auto on
+codex-dream-skin auto off
+codex-dream-skin status
+```
+
+You can also use an exact built-in Chinese name directly, for example `codex-dream-skin 绿色护眼`. Manual switching is hot-only by default: when a verified CDP session is unavailable, it saves the selection for the next connection and does not restart Codex. Use `codex-dream-skin use 赛博风 --restart` only when you explicitly want to authorize a restart.
+
+If your shell cannot find the command, either add `~/.local/bin` to `PATH` or run `~/.local/bin/codex-dream-skin` with its full path. If that command name already belongs to another program, the installer safely falls back to `codex-dream-skin-studio`.
 
 Install location after step 2:
 
@@ -34,6 +77,9 @@ Install location after step 2:
 | --- | --- |
 | Engine | `~/.codex/codex-dream-skin-studio` |
 | State / logs / user images | `~/Library/Application Support/CodexDreamSkinStudio` |
+| Built-in and saved themes | `~/Library/Application Support/CodexDreamSkinStudio/themes` |
+| Rotation LaunchAgent | `~/Library/LaunchAgents/com.openai.codex-dream-skin-studio.rotation.plist` |
+| Terminal command | `~/.local/bin/codex-dream-skin` |
 | Theme backup | under Application Support (`theme-backup.json`) |
 
 ## Customer ZIP (optional packaging)

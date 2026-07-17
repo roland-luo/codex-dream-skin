@@ -51,6 +51,7 @@ fi
 discover_codex_app
 require_macos_runtime
 ensure_state_root
+"$SCRIPT_DIR/install-builtin-themes-macos.sh" --quiet
 [ -f "$CONFIG_PATH" ] || fail "Codex config not found: $CONFIG_PATH. Launch Codex once, close it, and rerun the installer."
 "$NODE" "$INJECTOR" --check-payload --theme-dir "$THEME_DIR" >/dev/null
 "$NODE" "$SCRIPT_DIR/theme-config.mjs" install "$CONFIG_PATH" "$THEME_BACKUP_PATH"
@@ -72,6 +73,8 @@ write_launcher() {
     "$command" > "$target"
   /bin/chmod 700 "$target"
 }
+
+"$SCRIPT_DIR/install-theme-cli-macos.sh"
 
 if [ "$CREATE_LAUNCHERS" = "true" ]; then
   /bin/mkdir -p "$HOME/Desktop"

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "cyber-grid",
+  "preset": "portal",
+  "name": "赛博风",
+  "brandSubtitle": "CYBER GRID",
+  "tagline": "穿过霓虹数据流，进入未来工作区",
+  "projectPrefix": "选择项目 · ",
+  "projectLabel": "◉  选择项目",
+  "statusText": "CYBER GRID ONLINE",
+  "quote": "CODE THE FUTURE",
+  "image": "background.png",
+  "artPosition": "69% center",
+  "sourceAspectRatio": 1.777,
+  "colors": {
+    "background": "#070817",
+    "panel": "#0b1022",
+    "panelAlt": "#121635",
+    "accent": "#00d7ff",
+    "accentAlt": "#7ae8ff",
+    "secondary": "#ff3ec8",
+    "highlight": "#7c4dff",
+    "text": "#eef7ff",
+    "muted": "#9aa7c7",
+    "line": "rgba(0, 215, 255, .28)"
+  },
+  "lightColors": {
+    "background": "#eaf3fb",
+    "panel": "#fbfdff",
+    "panelAlt": "#e3effb",
+    "accent": "#007fa3",
+    "accentAlt": "#16a5c7",
+    "secondary": "#b62188",
+    "highlight": "#5d3fd3",
+    "text": "#11172f",
+    "muted": "#5f6988",
+    "line": "rgba(0, 157, 196, .25)"
+  }
+}

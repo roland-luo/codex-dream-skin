@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "obsidian-zero",
+  "preset": "portal",
+  "name": "玄黑冷酷风",
+  "brandSubtitle": "OBSIDIAN ZERO",
+  "tagline": "极简玄黑，冷静掌控复杂任务",
+  "projectPrefix": "选择项目 · ",
+  "projectLabel": "◉  选择项目",
+  "statusText": "OBSIDIAN CORE ONLINE",
+  "quote": "STAY SHARP",
+  "image": "background.png",
+  "artPosition": "71% center",
+  "sourceAspectRatio": 1.777,
+  "colors": {
+    "background": "#050608",
+    "panel": "#0b0d11",
+    "panelAlt": "#12161b",
+    "accent": "#dceeff",
+    "accentAlt": "#a9d7f4",
+    "secondary": "#6e8391",
+    "highlight": "#3d5362",
+    "text": "#f4f7fa",
+    "muted": "#8d969e",
+    "line": "rgba(169, 215, 244, .22)"
+  },
+  "lightColors": {
+    "background": "#e9edf1",
+    "panel": "#f8fafb",
+    "panelAlt": "#dfe6ec",
+    "accent": "#405d70",
+    "accentAlt": "#6c8798",
+    "secondary": "#71808a",
+    "highlight": "#293a46",
+    "text": "#11161c",
+    "muted": "#58636d",
+    "line": "rgba(92, 117, 134, .24)"
+  }
+}

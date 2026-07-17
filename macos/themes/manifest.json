@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "rotationIntervalSeconds": 1800,
+  "themes": [
+    "rose-editorial",
+    "mecha-forge",
+    "green-focus",
+    "cyber-grid",
+    "obsidian-zero"
+  ]
+}

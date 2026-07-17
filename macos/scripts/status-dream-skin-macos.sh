@@ -20,6 +20,8 @@ done
 STATE_ROOT="${HOME}/Library/Application Support/CodexDreamSkinStudio"
 STATE_PATH="${STATE_ROOT}/state.json"
 THEME_DIR="${STATE_ROOT}/theme"
+ROTATION_STATE_PATH="${STATE_ROOT}/rotation-state.json"
+ROTATION_PLIST_PATH="${HOME}/Library/LaunchAgents/com.openai.codex-dream-skin-studio.rotation.plist"
 
 PORT="9341"
 SESSION="off"
@@ -27,6 +29,9 @@ INJECTOR_ALIVE="false"
 CDP_OK="false"
 THEME_NAME=""
 CODEX_RUNNING="false"
+ROTATION_ENABLED="false"
+ROTATION_INTERVAL_SECONDS="1800"
+ROTATION_LAST_RESULT=""
 
 read_json_field() {
   /usr/bin/python3 - "$1" "$2" 2>/dev/null <<'PY' || true
@@ -69,6 +74,16 @@ if [ -f "$THEME_DIR/theme.json" ]; then
   [ -n "$THEME_NAME" ] || THEME_NAME="$(read_json_field "$THEME_DIR/theme.json" id)"
 fi
 
+if [ -f "$ROTATION_STATE_PATH" ]; then
+  rotation_saved="$(read_json_field "$ROTATION_STATE_PATH" enabled)"
+  rotation_interval="$(read_json_field "$ROTATION_STATE_PATH" intervalSeconds)"
+  ROTATION_LAST_RESULT="$(read_json_field "$ROTATION_STATE_PATH" lastResult)"
+  [ -n "$rotation_interval" ] && ROTATION_INTERVAL_SECONDS="$rotation_interval"
+  if [ "$rotation_saved" = "True" ] || [ "$rotation_saved" = "true" ]; then
+    [ -f "$ROTATION_PLIST_PATH" ] && ROTATION_ENABLED="true"
+  fi
+fi
+
 if [ "$DEEP" = "true" ]; then
   if /usr/bin/curl --noproxy '*' --silent --fail --max-time 1 "http://127.0.0.1:${PORT}/json/version" >/dev/null 2>&1; then
     CDP_OK="true"
@@ -89,7 +104,8 @@ if [ "$SHORT" = "true" ]; then
 fi
 
 if [ "$JSON" = "true" ]; then
-  /usr/bin/python3 - "$SESSION" "$PORT" "$INJECTOR_ALIVE" "$CDP_OK" "$CODEX_RUNNING" "$THEME_NAME" <<'PY'
+  /usr/bin/python3 - "$SESSION" "$PORT" "$INJECTOR_ALIVE" "$CDP_OK" "$CODEX_RUNNING" "$THEME_NAME" \
+    "$ROTATION_ENABLED" "$ROTATION_INTERVAL_SECONDS" "$ROTATION_LAST_RESULT" <<'PY'
 import json, sys
 print(json.dumps({
     "session": sys.argv[1],
@@ -98,6 +114,9 @@ print(json.dumps({
     "cdpOk": sys.argv[4] == "true",
     "codexRunning": sys.argv[5] == "true",
     "themeName": sys.argv[6] or "",
+    "rotationEnabled": sys.argv[7] == "true",
+    "rotationIntervalSeconds": int(sys.argv[8]),
+    "rotationLastResult": sys.argv[9] or "",
 }))
 PY
   exit 0
@@ -109,3 +128,6 @@ printf 'injector=%s\n' "$INJECTOR_ALIVE"
 printf 'cdp=%s\n' "$CDP_OK"
 printf 'codex=%s\n' "$CODEX_RUNNING"
 printf 'theme=%s\n' "${THEME_NAME:-}"
+printf 'rotation=%s\n' "$ROTATION_ENABLED"
+printf 'rotationIntervalSeconds=%s\n' "$ROTATION_INTERVAL_SECONDS"
+printf 'rotationLastResult=%s\n' "$ROTATION_LAST_RESULT"

@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
-const SKIN_VERSION = "1.4.1";
+const SKIN_VERSION = "1.5.1";
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 const MAX_ART_BYTES = 16 * 1024 * 1024;
 
@@ -233,6 +233,41 @@ async function loadTheme(themeDir) {
     /^(?:100|[1-9]?\d)% (?:center|(?:100|[1-9]?\d)%)$/.test(raw.artPosition.trim())
     ? raw.artPosition.trim() : "50% center";
   const parsedAspectRatio = Number(raw.sourceAspectRatio);
+  const colors = {
+    background: color(raw.colors?.background, "#071116"),
+    panel: color(raw.colors?.panel, "#0b1a20"),
+    panelAlt: color(raw.colors?.panelAlt, "#10272c"),
+    accent: color(raw.colors?.accent, "#7cff46"),
+    accentAlt: color(raw.colors?.accentAlt, "#b8ff3d"),
+    secondary: color(raw.colors?.secondary, "#36d7e8"),
+    highlight: color(raw.colors?.highlight, "#642a8c"),
+    text: color(raw.colors?.text, "#e9fff1"),
+    muted: color(raw.colors?.muted, "#9ebdb3"),
+    line: color(raw.colors?.line, "rgba(124, 255, 70, .28)"),
+  };
+  const mixHex = (foreground, background, weight) => {
+    if (!/^#[0-9a-f]{6}$/i.test(foreground) || !/^#[0-9a-f]{6}$/i.test(background)) return background;
+    const channel = (hex, offset) => Number.parseInt(hex.slice(offset, offset + 2), 16);
+    const mixed = [1, 3, 5].map((offset) => Math.round(
+      channel(foreground, offset) * weight + channel(background, offset) * (1 - weight),
+    ));
+    return `#${mixed.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+  };
+  const accentLine = /^#[0-9a-f]{6}$/i.test(colors.accent)
+    ? `rgba(${Number.parseInt(colors.accent.slice(1, 3), 16)}, ${Number.parseInt(colors.accent.slice(3, 5), 16)}, ${Number.parseInt(colors.accent.slice(5, 7), 16)}, .22)`
+    : colors.line;
+  const lightColors = {
+    background: color(raw.lightColors?.background, mixHex(colors.accent, "#f5f7f8", 0.08)),
+    panel: color(raw.lightColors?.panel, mixHex(colors.accent, "#ffffff", 0.025)),
+    panelAlt: color(raw.lightColors?.panelAlt, mixHex(colors.accent, "#ffffff", 0.11)),
+    accent: color(raw.lightColors?.accent, colors.accent),
+    accentAlt: color(raw.lightColors?.accentAlt, colors.accentAlt),
+    secondary: color(raw.lightColors?.secondary, colors.secondary),
+    highlight: color(raw.lightColors?.highlight, colors.highlight),
+    text: color(raw.lightColors?.text, mixHex(colors.accent, "#171a1d", 0.08)),
+    muted: color(raw.lightColors?.muted, mixHex(colors.accent, "#626a72", 0.14)),
+    line: color(raw.lightColors?.line, accentLine),
+  };
   const theme = {
     schemaVersion: 1,
     id: text(raw.id, "custom", 80),
@@ -248,18 +283,8 @@ async function loadTheme(themeDir) {
     artPosition,
     sourceAspectRatio: Number.isFinite(parsedAspectRatio) && parsedAspectRatio > 0 && parsedAspectRatio <= 20
       ? parsedAspectRatio : 1,
-    colors: {
-      background: color(raw.colors?.background, "#071116"),
-      panel: color(raw.colors?.panel, "#0b1a20"),
-      panelAlt: color(raw.colors?.panelAlt, "#10272c"),
-      accent: color(raw.colors?.accent, "#7cff46"),
-      accentAlt: color(raw.colors?.accentAlt, "#b8ff3d"),
-      secondary: color(raw.colors?.secondary, "#36d7e8"),
-      highlight: color(raw.colors?.highlight, "#642a8c"),
-      text: color(raw.colors?.text, "#e9fff1"),
-      muted: color(raw.colors?.muted, "#9ebdb3"),
-      line: color(raw.colors?.line, "rgba(124, 255, 70, .28)"),
-    },
+    colors,
+    lightColors,
   };
   const imagePath = path.join(assetsRoot, theme.image);
   const imageStat = await fs.stat(imagePath);

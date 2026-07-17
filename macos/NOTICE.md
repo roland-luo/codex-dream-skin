@@ -13,9 +13,11 @@ It does **not** grant rights to:
 - Any user-supplied images or third-party artwork you drop into a theme
 - Character likenesses, franchise art, or celebrity imagery
 
-## Demo artwork
+## Bundled artwork
 
 `assets/portal-hero.png` is original abstract geometric art generated for this open-source repository (no characters). Replace it with your own image before shipping a branded theme to customers.
+
+The built-in `mecha-forge`, `green-focus`, `cyber-grid`, and `obsidian-zero` backgrounds are original AI-generated artwork created for this project. They contain no intended logos, text, fake Codex controls, or franchise characters. The `rose-editorial` pack reuses the existing rose demonstration artwork; review subject/likeness rights before public or commercial redistribution.
 
 ## Runtime
 
