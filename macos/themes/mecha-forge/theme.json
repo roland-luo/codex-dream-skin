@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "mecha-forge",
   "preset": "portal",
+  "homeLayout": "showcase",
   "name": "机甲风",
   "brandSubtitle": "MECHA FORGE",
   "tagline": "钢铁秩序，点燃高效创造力",

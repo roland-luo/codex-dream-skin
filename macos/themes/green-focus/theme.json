@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "green-focus",
   "preset": "portal",
+  "homeLayout": "showcase",
   "name": "绿色护眼",
   "brandSubtitle": "GREEN FOCUS",
   "tagline": "低饱和自然绿，安静专注每一次思考",

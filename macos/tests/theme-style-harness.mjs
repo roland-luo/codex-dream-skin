@@ -116,6 +116,7 @@ if (actual.accent !== (theme.lightColors?.accent || theme.colors.accent)) {
 }
 if (attributes.get("data-dream-preset") !== theme.preset ||
     attributes.get("data-dream-theme") !== theme.id ||
+    attributes.get("data-dream-layout") !== (theme.homeLayout || (theme.preset === "rose" ? "editorial" : "standard")) ||
     window.__CODEX_DREAM_SKIN_STATE__?.themeId !== theme.id) {
   throw new Error(`${theme.id}: hot switch kept stale runtime theme attributes`);
 }

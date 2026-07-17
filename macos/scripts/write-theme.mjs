@@ -105,6 +105,7 @@ const custom = {
   schemaVersion: 1,
   id: `custom-${Date.now()}`,
   preset,
+  homeLayout: preset === "rose" ? "editorial" : "standard",
   name: name || "我的 Codex Dream Skin",
   brandSubtitle: "CODEX DREAM SKIN",
   tagline: tagline || "把喜欢的画面变成可交互的 Codex 工作台。",

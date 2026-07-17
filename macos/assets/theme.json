@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "rose-editorial",
   "preset": "rose",
+  "homeLayout": "editorial",
   "name": "桥本有菜专属定制皮肤",
   "brandSubtitle": "CODEX APP 限定版",
   "tagline": "与有菜一起，用灵感创造无限可能",

@@ -842,6 +842,225 @@ html.codex-dream-skin[data-dream-preset="adaptive"][data-dream-shell="dark"] mai
 }
 
 /* ==========================================================================
+   Curated showcase layout — shares the rose preset's complete visual rhythm
+   while retaining each built-in theme's own material language.
+   ========================================================================== */
+
+html.codex-dream-skin[data-dream-layout="showcase"]:not([data-dream-preset="rose"]) .dream-skin-home {
+  --thread-content-max-width: min(1040px, calc(100cqw - 54px)) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child {
+  padding-top: 68px !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child {
+  flex: 0 0 535px !important;
+  min-height: 535px !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child {
+  width: calc(100% - 58px) !important;
+  height: 400px !important;
+  min-height: 400px !important;
+  border-color: color-mix(in srgb, var(--ds-green) 38%, transparent) !important;
+  border-radius: 24px !important;
+  background-position: center, var(--dream-skin-art-position, 68% center) !important;
+  box-shadow:
+    0 20px 46px color-mix(in srgb, var(--ds-text) 17%, transparent),
+    0 0 30px color-mix(in srgb, var(--ds-green) 9%, transparent),
+    inset 0 1px color-mix(in srgb, white 18%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child::before {
+  width: 58%;
+  border-radius: 23px 0 0 23px;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--ds-bg) 88%, #020305) 0%,
+    color-mix(in srgb, var(--ds-bg) 72%, #020305) 48%,
+    color-mix(in srgb, var(--ds-bg) 36%, transparent) 78%,
+    transparent 100%);
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child > div:first-child {
+  padding-left: clamp(44px, 5.2vw, 78px) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child > div:first-child > div:first-child {
+  width: 47% !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [data-feature="game-source"] {
+  font-size: clamp(29px, 2.35vw, 38px) !important;
+  line-height: 1.2 !important;
+  font-weight: 670 !important;
+  letter-spacing: .015em !important;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, .46) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [data-feature="game-source"]::before {
+  margin-bottom: 14px !important;
+  font-size: 14px !important;
+  letter-spacing: .11em !important;
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--ds-green) 28%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [data-feature="game-source"]::after {
+  margin-top: 18px !important;
+  color: color-mix(in srgb, #fff 76%, var(--ds-green)) !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  letter-spacing: .06em !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .34) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child > div:nth-child(2) {
+  left: 38px !important;
+  right: 38px !important;
+  top: 270px !important;
+  margin-top: 0 !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [class~="group/home-suggestions"] button {
+  min-height: 164px !important;
+  padding: 20px 18px 18px !important;
+  border-color: color-mix(in srgb, var(--ds-green) 24%, transparent) !important;
+  border-radius: 19px !important;
+  background: color-mix(in srgb, var(--ds-panel) 91%, transparent) !important;
+  box-shadow:
+    0 13px 30px color-mix(in srgb, var(--ds-text) 13%, transparent),
+    inset 0 1px rgba(255, 255, 255, .14) !important;
+  backdrop-filter: blur(14px) saturate(108%) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home .composer-surface-chrome {
+  width: calc(100% - 10px) !important;
+  min-height: 98px !important;
+  transform: translate(-54px, 0);
+  border-color: color-mix(in srgb, var(--ds-green) 26%, transparent) !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 14px 34px color-mix(in srgb, var(--ds-text) 12%, transparent),
+    inset 0 1px rgba(255, 255, 255, .16) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+  border: 1px solid color-mix(in srgb, var(--ds-green) 20%, transparent) !important;
+  border-bottom: 0 !important;
+  border-radius: 18px 18px 0 0 !important;
+  box-shadow: 0 -6px 20px color-mix(in srgb, var(--ds-text) 7%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"][data-dream-shell="light"] main.main-surface {
+  background:
+    radial-gradient(circle at 78% 72%, color-mix(in srgb, var(--ds-green) 10%, transparent), transparent 32%),
+    linear-gradient(104deg,
+      color-mix(in srgb, var(--ds-panel) 97%, transparent) 0%,
+      color-mix(in srgb, var(--ds-bg) 94%, transparent) 52%,
+      color-mix(in srgb, var(--ds-panel-2) 78%, transparent) 100%),
+    var(--dream-skin-art) var(--dream-skin-art-position, 70% center) / cover no-repeat !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"][data-dream-shell="light"] .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+  color: var(--ds-text) !important;
+  background: color-mix(in srgb, var(--ds-panel-2) 94%, transparent) !important;
+  backdrop-filter: blur(17px) saturate(106%) !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"][data-dream-shell="light"] .dream-skin-home .group\/project-selector > button {
+  color: var(--ds-text) !important;
+  border-color: color-mix(in srgb, var(--ds-green) 22%, transparent) !important;
+  background: color-mix(in srgb, var(--ds-panel) 94%, transparent) !important;
+  box-shadow: 0 4px 13px color-mix(in srgb, var(--ds-text) 7%, transparent) !important;
+}
+
+#codex-dream-skin-chrome.dream-skin-home-shell[data-dream-layout="showcase"] .dream-skin-brand {
+  left: 42px;
+  top: 54px;
+  height: 45px;
+  gap: 11px;
+}
+
+#codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-brand-art-frame {
+  width: 38px;
+  height: 38px;
+  flex-basis: 38px;
+  border-color: color-mix(in srgb, var(--ds-green) 30%, transparent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--ds-text) 16%, transparent);
+}
+
+#codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-brand b {
+  font-size: 17px;
+  font-weight: 680;
+  letter-spacing: .035em;
+}
+
+#codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-brand small {
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 560;
+  letter-spacing: .13em;
+}
+
+#codex-dream-skin-chrome.dream-skin-home-shell[data-dream-layout="showcase"] .dream-skin-status {
+  right: 30px;
+  top: 63px;
+  padding: 6px 9px;
+  border: 1px solid color-mix(in srgb, var(--ds-green) 20%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ds-panel) 78%, transparent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--ds-text) 8%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+html.codex-dream-skin[data-dream-theme="mecha-forge"] .dream-skin-home > div:first-child > div:first-child > div:first-child,
+html.codex-dream-skin[data-dream-theme="mecha-forge"] .dream-skin-home .composer-surface-chrome {
+  border-radius: 12px 26px 12px 26px !important;
+}
+
+html.codex-dream-skin[data-dream-theme="mecha-forge"] .dream-skin-home [data-feature="game-source"] {
+  font-family: "DIN Alternate", "Arial Narrow", "PingFang SC", sans-serif !important;
+  letter-spacing: .025em !important;
+}
+
+html.codex-dream-skin[data-dream-theme="green-focus"] .dream-skin-home > div:first-child > div:first-child > div:first-child,
+html.codex-dream-skin[data-dream-theme="green-focus"] .dream-skin-home .composer-surface-chrome {
+  border-radius: 28px !important;
+}
+
+html.codex-dream-skin[data-dream-theme="green-focus"] .dream-skin-home [data-feature="game-source"] {
+  font-family: Georgia, "Songti SC", "STSong", serif !important;
+  font-weight: 590 !important;
+}
+
+html.codex-dream-skin[data-dream-theme="cyber-grid"] .dream-skin-home > div:first-child > div:first-child > div:first-child,
+html.codex-dream-skin[data-dream-theme="cyber-grid"] .dream-skin-home .composer-surface-chrome {
+  border-radius: 9px !important;
+  box-shadow:
+    8px 10px 0 color-mix(in srgb, var(--ds-purple) 10%, transparent),
+    0 0 28px color-mix(in srgb, var(--ds-green) 13%, transparent) !important;
+}
+
+html.codex-dream-skin[data-dream-theme="cyber-grid"] .dream-skin-home [data-feature="game-source"] {
+  font-family: "SF Pro Display", "PingFang SC", sans-serif !important;
+  letter-spacing: .055em !important;
+}
+
+html.codex-dream-skin[data-dream-theme="obsidian-zero"] .dream-skin-home > div:first-child > div:first-child > div:first-child,
+html.codex-dream-skin[data-dream-theme="obsidian-zero"] .dream-skin-home .composer-surface-chrome {
+  border-radius: 5px !important;
+  box-shadow:
+    -4px 0 0 color-mix(in srgb, var(--ds-green) 24%, transparent),
+    0 20px 44px rgba(0, 0, 0, .21) !important;
+}
+
+html.codex-dream-skin[data-dream-theme="obsidian-zero"] .dream-skin-home [data-feature="game-source"] {
+  font-family: "Helvetica Neue", "PingFang SC", sans-serif !important;
+  font-weight: 520 !important;
+  letter-spacing: .045em !important;
+}
+
+/* ==========================================================================
    Rose editorial preset — faithful live interpretation of gallery/skin-01.
    Real Codex data and controls remain native; only presentation is changed.
    ========================================================================== */
@@ -1187,12 +1406,12 @@ html.codex-dream-skin:not([data-dream-preset="rose"]) .dream-skin-home {
   position: absolute;
   right: 22px;
   bottom: 18px;
-  width: 128px;
-  height: 166px;
+  width: 142px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   gap: 7px;
-  padding: 8px 8px 10px;
+  padding: 9px 9px 11px;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--ds-green) 34%, var(--ds-line));
   border-radius: 13px;
@@ -1224,9 +1443,9 @@ html.codex-dream-skin:not([data-dream-preset="rose"]) .dream-skin-home {
 
 #codex-dream-skin-chrome.dream-skin-home-shell:not([data-dream-preset="rose"]) .dream-skin-polaroid img {
   width: 100%;
-  height: 116px;
+  height: 128px;
   display: block;
-  flex: 0 0 116px;
+  flex: 0 0 128px;
   border-radius: 8px;
   object-fit: cover;
   object-position: var(--dream-skin-art-position, 68% center);
@@ -1353,6 +1572,26 @@ html.codex-dream-skin[data-dream-preset="rose"] .dream-skin-home .group\/project
   html.codex-dream-skin:not([data-dream-preset="rose"]) .dream-skin-home {
     --thread-content-max-width: min(860px, calc(100cqw - 30px)) !important;
   }
+  html.codex-dream-skin[data-dream-layout="showcase"]:not([data-dream-preset="rose"]) .dream-skin-home {
+    --thread-content-max-width: min(860px, calc(100cqw - 30px)) !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child {
+    padding-top: 60px !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child {
+    width: calc(100% - 36px) !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home .composer-surface-chrome {
+    width: 100% !important;
+    transform: none !important;
+  }
+  #codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-brand {
+    left: 25px !important;
+    top: 52px !important;
+  }
+  #codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-status {
+    display: none !important;
+  }
   #codex-dream-skin-chrome:not([data-dream-preset="rose"]) .dream-skin-polaroid {
     display: none !important;
   }
@@ -1372,6 +1611,26 @@ html.codex-dream-skin[data-dream-preset="rose"] .dream-skin-home .group\/project
 }
 
 @media (max-width: 900px) {
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child {
+    flex-basis: 440px !important;
+    min-height: 440px !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child {
+    height: 320px !important;
+    min-height: 320px !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child > div:first-child > div:first-child {
+    width: 58% !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home > div:first-child > div:first-child > div:first-child > div:nth-child(2) {
+    left: 22px !important;
+    right: 22px !important;
+    top: 208px !important;
+  }
+  html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [class~="group/home-suggestions"] button {
+    min-height: 138px !important;
+    font-size: 13px !important;
+  }
   html.codex-dream-skin[data-dream-preset="rose"] .dream-skin-home > div:first-child > div:first-child {
     flex-basis: 440px !important;
     min-height: 440px !important;

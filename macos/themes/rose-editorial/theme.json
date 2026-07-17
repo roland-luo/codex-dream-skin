@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "rose-editorial",
   "preset": "rose",
+  "homeLayout": "editorial",
   "name": "粉色系",
   "brandSubtitle": "ROSE EDITORIAL",
   "tagline": "温柔的粉色灵感工作台",

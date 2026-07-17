@@ -55,6 +55,7 @@ while IFS= read -r theme_id; do
   "$NODE" "$ROOT/tests/theme-style-harness.mjs" "$ROOT/themes/$theme_id/theme.json" >/dev/null
 done < <("$NODE" -e 'for (const id of JSON.parse(process.argv[1]).themes) console.log(id)' "$MANIFEST_JSON")
 "$NODE" "$ROOT/tests/theme-card-style-harness.mjs" >/dev/null
+"$NODE" "$ROOT/tests/showcase-layout-harness.mjs" >/dev/null
 
 ROTATION_HOME="$TMP/rotation-home"
 ROTATION_LAUNCH_AGENTS="$ROTATION_HOME/Library/LaunchAgents"

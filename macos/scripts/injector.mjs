@@ -272,6 +272,7 @@ async function loadTheme(themeDir) {
     schemaVersion: 1,
     id: text(raw.id, "custom", 80),
     preset: text(raw.preset, "portal", 32),
+    homeLayout: text(raw.homeLayout, raw.preset === "rose" ? "editorial" : "standard", 32),
     name: text(raw.name, "Codex Dream Skin", 80),
     brandSubtitle: text(raw.brandSubtitle, "CODEX DREAM SKIN", 80),
     tagline: text(raw.tagline, "Make something wonderful.", 160),

@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "obsidian-zero",
   "preset": "portal",
+  "homeLayout": "showcase",
   "name": "玄黑冷酷风",
   "brandSubtitle": "OBSIDIAN ZERO",
   "tagline": "极简玄黑，冷静掌控复杂任务",

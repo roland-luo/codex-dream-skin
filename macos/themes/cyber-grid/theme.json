@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "cyber-grid",
   "preset": "portal",
+  "homeLayout": "showcase",
   "name": "赛博风",
   "brandSubtitle": "CYBER GRID",
   "tagline": "穿过霓虹数据流，进入未来工作区",
