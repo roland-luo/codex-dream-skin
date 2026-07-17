@@ -75,14 +75,14 @@ If your shell cannot find the command, either add `~/.local/bin` to `PATH` or ru
 
 Install location after step 2:
 
-| Item | Path |
-| --- | --- |
-| Engine | `~/.codex/codex-dream-skin-studio` |
-| State / logs / user images | `~/Library/Application Support/CodexDreamSkinStudio` |
-| Built-in and saved themes | `~/Library/Application Support/CodexDreamSkinStudio/themes` |
-| Rotation LaunchAgent | `~/Library/LaunchAgents/com.openai.codex-dream-skin-studio.rotation.plist` |
-| Terminal command | `~/.local/bin/codex-dream-skin` |
-| Theme backup | under Application Support (`theme-backup.json`) |
+| Item                       | Path                                                                       |
+| -------------------------- | -------------------------------------------------------------------------- |
+| Engine                     | `~/.codex/codex-dream-skin-studio`                                         |
+| State / logs / user images | `~/Library/Application Support/CodexDreamSkinStudio`                       |
+| Built-in and saved themes  | `~/Library/Application Support/CodexDreamSkinStudio/themes`                |
+| Rotation LaunchAgent       | `~/Library/LaunchAgents/com.openai.codex-dream-skin-studio.rotation.plist` |
+| Terminal command           | `~/.local/bin/codex-dream-skin`                                            |
+| Theme backup               | under Application Support (`theme-backup.json`)                            |
 
 ## Customer ZIP (optional packaging)
 
@@ -136,21 +136,6 @@ Reset to the bundled abstract demo:
 ## License
 
 MIT — see `LICENSE`. Additional notices in `NOTICE.md` (trademarks, demo asset, runtime Node).
-
-## Sponsors
-
-Thanks to **[passion8.cc](https://passion8.cc/register?aff=TuPe)** for sponsoring this project.
-
-<p align="center">
-  <a href="https://passion8.cc/register?aff=TuPe">
-    <img src="../docs/images/sponsor-passion8.png" alt="Passion8" height="96">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://passion8.cc/register?aff=TuPe"><strong>Passion8｜感谢 passion8.cc 赞助本项目</strong></a><br>
-  AI API 中转站，支持 Codex / Claude Code / Grok 等工具接入。主题与 API 配置互相独立。
-</p>
 
 ## What this is not
 

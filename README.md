@@ -32,7 +32,7 @@
 
 <p align="center">
   <sub>
-    换肤。
+    mac codex换肤, 没windows主机没测不保证windows能用
   </sub>
 </p>
 
@@ -41,8 +41,25 @@
 一张图，一种心情。下面是视觉方向合成图；实际皮肤会保留你当前 Codex 的真实侧栏、项目、任务和系统窗口框架，不会把示意数据写进应用。macOS 1.4.0 的 Skill 会先按素材选择完整设计母版，再用实时截图对照初版验收，不再只做取色和铺背景。
 
 <p align="center">
-  <img src="docs/images/gallery/skin.png" alt="粉系定制" width="900"><br>
-  <sub>粉系定制</sub>
+  <img src="docs/images/screenshot-mac-pinkgirl.png" alt="粉系定制" width="900"><br>
+  <sub>粉系定制</sub><br>
+</p>
+<p align="center">
+  <img src="docs/images/screenshot-mac-mecha.png" alt="机甲风定制" width="900"><br>
+  <sub>机甲风定制</sub><br>
+</p>
+<p align="center">
+  <img src="docs/images/screenshot-mac-green.png" alt="护眼绿定制" width="900"><br>
+  <sub>护眼绿定制</sub><br>
+</p>
+<p align="center">
+  <img src="docs/images/screenshot-mac-cyber.png" alt="赛博定制" width="900"><br>
+  <sub>赛博定制</sub><br>
+</p>
+
+<p align="center">
+  <img src="docs/images/screenshot-mac-obsidian.png" alt="玄黑风" width="900"><br>
+  <sub>玄黑风</sub><br>
 </p>
 
 ## 它能做什么

@@ -1,3 +1,46 @@
+# Design QA — Cohesive five-theme home and aligned composer (1.6.0)
+
+- Source visual truth: the live rose editorial home, captured at `/private/tmp/codex-dream-skin-final-1609-00-rose.png`
+- User alignment reference: `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-661179d5-6b39-4e28-bcaf-19d49cc1437c.png`
+- Current user references: `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-3e03bbd5-ed28-4f6d-bdf0-4eb1e5910587.png`, `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-cbcd37ff-3919-4a62-a154-fb19bcffc7ab.png`, `/var/folders/9k/nc7074ws7_d_zywslx42tpxc0000gn/T/codex-clipboard-e1c40d05-028b-4d7b-be53-0221f9eef039.png`
+- Live target screenshots: `/private/tmp/codex-dream-skin-final-1609-01-mecha.png`, `/private/tmp/codex-dream-skin-final-1609-02-green.png`, `/private/tmp/codex-dream-skin-final-1609-03-cyber.png`, `/private/tmp/codex-dream-skin-final-1609-04-obsidian.png`
+- Current implementation screenshots: `/private/tmp/cyber-grid-copy-fixed-full.png`, `/private/tmp/cyber-grid-copy-fixed-focus.png`, `/private/tmp/cyber-grid-update-theme-linked.png`, `/private/tmp/cyber-grid-project-composer-equal.png`
+- Comparison inputs: `/private/tmp/codex-dream-skin-final-compare-01-mecha.png`, `/private/tmp/codex-dream-skin-final-compare-02-green.png`, `/private/tmp/codex-dream-skin-final-compare-03-cyber.png`, `/private/tmp/codex-dream-skin-final-compare-04-obsidian.png`
+- Viewport and state: 1609 × 888, macOS Codex 26.707.91948, light shell, New Task home, identical native sidebar/project/composer state
+- Full-view comparison evidence: all three source/implementation pairs were opened together in one local-image comparison input; the full cyber home capture confirms the surrounding theme layout remains unchanged.
+- Focused comparison evidence: the card lane, account-row update button, and project/composer seam were each compared at source resolution.
+- Interaction evidence: all four native card labels return visible hit points, the update control remains the native enabled button, project and composer bounds both measure `x=366.5`, `width=998`, and injected chrome remains non-interactive.
+
+## Findings fixed
+
+- [P1] The four non-rose themes used a short 252px hero and left a large unstructured gap between the hero and composer. They now share the rose layout's 400px hero, brand scale, lower glass lane, and bottom-right artwork-card rhythm.
+- [P1] Non-rose project selectors retained a dark or detached surface in the light shell. Each now uses its active theme's light surface, border, accent, and shadow tokens.
+- [P2] Hero supporting copy had insufficient contrast against mecha, cyber, and obsidian artwork. It now uses a theme-tinted light foreground.
+- [P2] The project-selector surface began 67px to the right of the composer on wide screens. It now aligns with the composer edge; compact screens compensate for their native 13px inset and 26px width difference.
+- [P1] Suggestion labels were pushed below the hero clipping line, leaving four blank cards with icons only. Native labels now sit directly below each icon and the live verifier checks their visible hit points.
+- [P2] The account-row update button retained Codex's fixed charts-blue surface. Its resting, icon, border, shadow, and hover colors now follow the active theme variables.
+- [P2] The project surface ended 16px before the composer even though their left edges matched. Both desktop bounds now measure 998px, and compact widths share the same full-width rule.
+- [P2] The decorative composer `◉` marker called out by the user was visually noisy. It is now removed for every theme and occupies no layout space.
+- [P2] A native 58px rate-limit banner could push the composer below the viewport. The home rhythm now reserves that height only while the banner is present.
+
+## Final fidelity check
+
+- Fonts and typography: rose keeps its editorial serif; mecha uses a condensed industrial face, green uses a softer serif, cyber uses a spaced display face, and obsidian uses a restrained grotesk. Hero text and all four native card labels are readable.
+- Spacing and layout rhythm: the five themes share the same brand, 400px hero, selector, composer, and artwork-card hierarchy; the selector and composer left and right edges match at desktop and compact widths.
+- Colors and visual tokens: sidebars, surfaces, borders, buttons, status pills, text, wallpaper treatments, and the native update badge all follow the active theme rather than inheriting rose or fixed blue.
+- Image quality and asset fidelity: every theme uses its real bundled 16:9 artwork for the hero, ambient background, brand crop, and bottom-right card; no placeholders or synthetic UI assets are used.
+- Copy and content: native Codex suggestion prompts, projects, branch, approval mode, model selector, and editable composer remain real; only presentation changes.
+- Responsiveness and accessibility: the bottom-right card hides before 1120px, selector alignment adapts at the same breakpoint, reduced-motion behavior is preserved, and the decorative chrome cannot intercept pointer events.
+
+## Result
+
+- No actionable P0, P1, or P2 visual findings remain in the accepted side-by-side comparisons.
+- Automated regression coverage includes theme hot-switch attributes, theme-linked palettes/cards/update badge, visible suggestion copy, exact project/composer bounds, hidden ornament, compact alignment, and banner-aware vertical rhythm.
+
+final result: passed
+
+---
+
 # Design QA — Non-rose bottom-right theme cards (1.5.2)
 
 - Reported mismatch: rose displayed a bottom-right artwork card, while mecha, green, cyber, and obsidian did not
@@ -220,4 +263,4 @@ prior full-build result: passed
 
 ## Current result
 
-final result: blocked
+prior 1.4.2 result: blocked

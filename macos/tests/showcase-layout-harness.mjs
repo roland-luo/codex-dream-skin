@@ -34,15 +34,28 @@ const requiredRules = [
   ["flex: 0 0 535px", "desktop vertical rhythm"],
   ["height: 400px", "desktop hero height"],
   ["transform: translate(-54px, 0)", "desktop composer alignment"],
+  ["transform: translateX(-67px)", "project selector left alignment"],
+  ["content: none !important", "hidden composer ornament"],
+  ["flex-basis: 477px", "native banner-aware vertical rhythm"],
+  ["margin-top: 12px", "visible suggestion copy placement"],
+  ["color: var(--ds-text) !important", "theme-linked suggestion copy"],
   ["left: 42px", "desktop brand alignment"],
   ["width: 38px", "desktop brand artwork size"],
   ['data-dream-shell="light"', "light-shell theme surface"],
   ["group\\/project-selector > button", "theme-linked project selector"],
   ["@media (max-width: 1120px)", "compact desktop breakpoint"],
+  ["transform: translateX(-13px)", "compact project selector alignment"],
   ["@media (max-width: 900px)", "narrow layout breakpoint"],
 ];
 for (const [needle, label] of requiredRules) {
   if (!css.includes(needle)) throw new Error(`showcase CSS lost ${label}`);
+}
+
+if (!/data-dream-preset="rose"\]\) \.dream-skin-home div:has\(> \.horizontal-scroll-fade-mask \.group\\\/project-selector\)\s*\{[^}]*width: calc\(100% - 10px\)/s.test(css)) {
+  throw new Error("wide project selector no longer matches composer width");
+}
+if (!/@media \(max-width: 1120px\)[\s\S]*data-dream-preset="rose"\]\) \.dream-skin-home div:has\(> \.horizontal-scroll-fade-mask \.group\\\/project-selector\)\s*\{[^}]*width: 100% !important;[^}]*translateX\(-13px\)/s.test(css)) {
+  throw new Error("compact project selector no longer matches composer bounds");
 }
 
 process.stdout.write("showcase layouts: rose rhythm and four theme materials linked\n");

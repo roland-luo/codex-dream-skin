@@ -12,7 +12,7 @@ Expected result:
 - The subject remains recognizable in the home banner; the left side stays calm enough for live native headings.
 - The theme feels like the original composed skin, not a pale image placed behind Codex.
 
-Visual target: `visual-targets/rose-home.png` in a packaged release, or `../../docs/images/gallery/skin.png` in the source checkout. Use the bundled `assets/banner-arina-hashimoto-pure-no-ui.png` as the profile's source-art example.
+Visual target: `visual-targets/rose-home.png` in a packaged release, or `../../docs/images/screenshot-mac-pinkgirl.png` in the source checkout. Use the bundled `assets/banner-arina-hashimoto-pure-no-ui.png` as the profile's source-art example.
 
 ## `portal` — dark cinematic technology
 

@@ -439,14 +439,14 @@ html.codex-dream-skin .composer-surface-chrome {
 }
 
 html.codex-dream-skin .composer-surface-chrome::before {
-  content: "◉";
+  content: none !important;
   position: absolute;
   left: -13px;
   top: -13px;
   z-index: 20;
   width: 27px;
   height: 27px;
-  display: grid;
+  display: none !important;
   place-items: center;
   border: 1px solid rgba(184, 255, 61, .50);
   border-radius: 50%;
@@ -933,6 +933,21 @@ html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [class~="gr
   backdrop-filter: blur(14px) saturate(108%) !important;
 }
 
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [class~="group/home-suggestions"] button > span:last-child {
+  min-height: 0 !important;
+  margin-top: 12px !important;
+  justify-content: flex-start !important;
+}
+
+html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home [class~="group/home-suggestions"] button > span:last-child > span {
+  color: var(--ds-text) !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home .composer-surface-chrome {
   width: calc(100% - 10px) !important;
   min-height: 98px !important;
@@ -942,6 +957,16 @@ html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home .composer-s
   box-shadow:
     0 14px 34px color-mix(in srgb, var(--ds-text) 12%, transparent),
     inset 0 1px rgba(255, 255, 255, .16) !important;
+}
+
+html.codex-dream-skin:is([data-dream-layout="showcase"], [data-dream-preset="rose"]) .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+  width: calc(100% - 10px) !important;
+  transform: translateX(-67px);
+}
+
+html.codex-dream-skin:is([data-dream-layout="showcase"], [data-dream-preset="rose"]) .dream-skin-home > div:first-child:has(.home-banners:not(:empty)) > div:first-child {
+  flex-basis: 477px !important;
+  min-height: 477px !important;
 }
 
 html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
@@ -1568,6 +1593,31 @@ html.codex-dream-skin[data-dream-preset="rose"] .dream-skin-home .group\/project
   box-shadow: 0 4px 12px rgba(155, 58, 84, .06) !important;
 }
 
+/* The native update badge is hard-coded to charts-blue. Repaint that one
+   sidebar control with the active theme without changing its native states. */
+html.codex-dream-skin aside.app-shell-left-panel button[class~="bg-token-charts-blue"] {
+  color: var(--ds-green) !important;
+  background: color-mix(in srgb, var(--ds-green) 14%, var(--ds-panel)) !important;
+  border: 1px solid color-mix(in srgb, var(--ds-green) 34%, transparent) !important;
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--ds-green) 13%, transparent) !important;
+}
+
+html.codex-dream-skin aside.app-shell-left-panel button[class~="bg-token-charts-blue"] svg {
+  color: var(--ds-green) !important;
+}
+
+html.codex-dream-skin aside.app-shell-left-panel button[class~="bg-token-charts-blue"]:hover {
+  color: var(--ds-panel) !important;
+  background: var(--ds-green) !important;
+  border-color: var(--ds-green) !important;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--ds-green) 22%, transparent) !important;
+  transform: none !important;
+}
+
+html.codex-dream-skin aside.app-shell-left-panel button[class~="bg-token-charts-blue"]:hover svg {
+  color: var(--ds-panel) !important;
+}
+
 @media (max-width: 1120px) {
   html.codex-dream-skin:not([data-dream-preset="rose"]) .dream-skin-home {
     --thread-content-max-width: min(860px, calc(100cqw - 30px)) !important;
@@ -1584,6 +1634,10 @@ html.codex-dream-skin[data-dream-preset="rose"] .dream-skin-home .group\/project
   html.codex-dream-skin[data-dream-layout="showcase"] .dream-skin-home .composer-surface-chrome {
     width: 100% !important;
     transform: none !important;
+  }
+  html.codex-dream-skin:is([data-dream-layout="showcase"], [data-dream-preset="rose"]) .dream-skin-home div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+    width: 100% !important;
+    transform: translateX(-13px) !important;
   }
   #codex-dream-skin-chrome[data-dream-layout="showcase"] .dream-skin-brand {
     left: 25px !important;

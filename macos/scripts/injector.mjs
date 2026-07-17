@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
-const SKIN_VERSION = "1.5.2";
+const SKIN_VERSION = "1.6.0";
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost", "[::1]"]);
 const MAX_ART_BYTES = 16 * 1024 * 1024;
 
@@ -373,7 +373,18 @@ async function verifySession(session) {
       const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
       return !node.disabled && getComputedStyle(node).pointerEvents !== 'none' && Boolean(hit && node.contains(hit));
     });
+    const cardCopyPass = cardNodes.every((node, index) => {
+      if (!cardBoxes[index]?.visible) return true;
+      const labelId = node.getAttribute('aria-labelledby');
+      const label = (labelId ? document.getElementById(labelId) : null) ?? node.lastElementChild;
+      const labelText = label?.textContent?.trim() ?? '';
+      const r = label?.getBoundingClientRect();
+      if (!labelText || !r || r.width <= 0 || r.height <= 0) return false;
+      const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+      return Boolean(hit && node.contains(hit));
+    });
     const hero = box(home?.firstElementChild?.firstElementChild?.firstElementChild);
+    const projectSurface = box(home?.querySelector('div:has(> .horizontal-scroll-fade-mask .group\\\\/project-selector)'));
     const projectButton = box(home?.querySelector('.group\\\\/project-selector > button'));
     const composerNode = document.querySelector('.composer-surface-chrome');
     const composer = box(composerNode);
@@ -392,11 +403,13 @@ async function verifySession(session) {
       hero,
       cards: cardBoxes,
       visibleCardCount: visibleCards.length,
+      projectSurface,
       projectButton,
       composer,
       composerEditable: Boolean(composerNode?.querySelector('[contenteditable="true"]')),
       composerPointerEvents: getComputedStyle(composerNode || document.body).pointerEvents,
       cardInteractionPass,
+      cardCopyPass,
       sidebar,
       viewport: { width: innerWidth, height: innerHeight },
       documentOverflow: {
@@ -409,14 +422,20 @@ async function verifySession(session) {
       Boolean(result.composer?.visible) && result.composerEditable && result.composerPointerEvents !== 'none' &&
       Boolean(result.sidebar?.visible) && !result.documentOverflow.x;
     // Project selector markup varies across Codex builds — soft requirement.
+    const projectComposerAlignmentPass = !result.projectSurface?.visible || (
+      Math.abs(result.projectSurface.x - result.composer.x) <= 1 &&
+      Math.abs(result.projectSurface.width - result.composer.width) <= 1
+    );
     const homePass = !result.homeRoute || (
       result.homePresent && result.hero?.visible && result.hero.width >= 280 && result.hero.height >= 120 &&
-      result.visibleCardCount >= 1 && result.visibleCardCount <= 6 && result.cardInteractionPass &&
+      result.visibleCardCount >= 1 && result.visibleCardCount <= 6 && result.cardInteractionPass && result.cardCopyPass &&
+      projectComposerAlignmentPass &&
       result.brandArtFrame?.visible && result.brandArtFrame.width <= 80 && result.brandArtFrame.height <= 80
     );
     result.pass = Boolean(basePass && homePass);
     result.softNotes = {
       projectButtonOptional: !result.projectButton?.visible,
+      projectComposerAlignmentPass,
     };
     return result;
   })()`);

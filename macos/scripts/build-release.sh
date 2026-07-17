@@ -17,11 +17,11 @@ if [ "${1:-}" != "--skip-tests" ]; then "$ROOT/tests/run-tests.sh"; fi
   --exclude '.DS_Store' \
   --exclude 'release/' \
   "$ROOT/" "$TMP/codex-dream-skin-studio/"
-if [ -f "$REPO_ROOT/docs/images/gallery/skin.png" ] && \
+if [ -f "$REPO_ROOT/docs/images/screenshot-mac-pkingirl.png" ] && \
    [ -f "$REPO_ROOT/docs/images/screenshot-macos-home.png" ] && \
    [ -f "$REPO_ROOT/docs/images/screenshot-macos-task.png" ]; then
   /bin/mkdir -p "$TMP/codex-dream-skin-studio/references/visual-targets"
-  /bin/cp "$REPO_ROOT/docs/images/gallery/skin.png" \
+  /bin/cp "$REPO_ROOT/docs/images/screenshot-mac-pkingirl.png" \
     "$TMP/codex-dream-skin-studio/references/visual-targets/rose-home.png"
   /bin/cp "$REPO_ROOT/docs/images/screenshot-macos-home.png" \
     "$TMP/codex-dream-skin-studio/references/visual-targets/portal-home.png"
